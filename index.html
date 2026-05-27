@@ -232,7 +232,7 @@
       height: 34px;
       background: var(--c-accent);
       border-radius: 9px;
-      display: grid;
+      display: none;
       place-items: center;
       font-size: 0.8rem;
       font-weight: 800;
@@ -369,7 +369,7 @@
       overflow: hidden;
     }
     @media (max-width: 767px) {
-      .hero { padding-block-start: var(--sp-5); }
+      .hero { padding-block-start: var(--sp-5); padding-block-end: var(--sp-6); }
     }
 
     /* Layered background */
@@ -496,6 +496,7 @@
       height: 40px;
       background: linear-gradient(to bottom, var(--c-text-3), transparent);
     }
+    @media (max-width: 767px) { .hero__scroll { display: none; } }
     @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
       50%       { transform: translateX(-50%) translateY(6px); }
@@ -513,6 +514,19 @@
       border-top: 1px solid var(--c-border);
       border-bottom: 1px solid var(--c-border);
       padding-block: var(--sp-5);
+      position: relative;
+    }
+    /* Right-edge fade: hints at more content */
+    .strip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 100%;
+      background: linear-gradient(to right, transparent, var(--c-surface));
+      pointer-events: none;
+      z-index: 1;
     }
     .strip__scroll {
       display: flex;
@@ -521,8 +535,41 @@
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+      cursor: grab;
     }
+    .strip__scroll:active { cursor: grabbing; }
     .strip__scroll::-webkit-scrollbar { display: none; }
+    .strip__hint { display: none; }
+    @media (max-width: 767px) {
+      /* Switch to 2-column grid on mobile */
+      .strip::after { display: none; }
+      .strip__scroll {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--sp-3);
+        overflow-x: visible;
+        cursor: default;
+        padding-left: var(--sp-4);
+      }
+      .strip__scroll:active { cursor: default; }
+      .strip__item--desktop,
+      .strip__sep { display: none; }
+      .strip__item {
+        gap: 6px;
+        flex-shrink: 1;
+        min-width: 0;
+      }
+      .strip__icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+      .strip__copy {
+        font-size: 0.72rem;
+        white-space: normal;
+      }
+    }
 
     .strip__item {
       display: flex;
@@ -1330,11 +1377,6 @@
     <div class="wrap">
       <div class="strip__scroll">
         <div class="strip__item">
-          <div class="strip__icon" aria-hidden="true">🚀</div>
-          <span class="strip__copy"><strong>50+ Sites</strong> Delivered</span>
-        </div>
-        <div class="strip__sep" aria-hidden="true"></div>
-        <div class="strip__item">
           <div class="strip__icon" aria-hidden="true">🇬🇧</div>
           <span class="strip__copy"><strong>UK-Based</strong>, Lancashire</span>
         </div>
@@ -1342,11 +1384,6 @@
         <div class="strip__item">
           <div class="strip__icon" aria-hidden="true">⚡</div>
           <span class="strip__copy"><strong>Avg. 5-Day</strong> Turnaround</span>
-        </div>
-        <div class="strip__sep" aria-hidden="true"></div>
-        <div class="strip__item">
-          <div class="strip__icon" aria-hidden="true">💷</div>
-          <span class="strip__copy"><strong>Fixed Pricing.</strong> No Surprises.</span>
         </div>
         <div class="strip__sep" aria-hidden="true"></div>
         <div class="strip__item">
@@ -1360,10 +1397,16 @@
         </div>
         <div class="strip__sep" aria-hidden="true"></div>
         <div class="strip__item">
-          <div class="strip__icon" aria-hidden="true">⭐</div>
-          <span class="strip__copy"><strong>5-Star</strong> Rated on Google</span>
+          <div class="strip__icon" aria-hidden="true">💷</div>
+          <span class="strip__copy"><strong>Fixed Pricing.</strong> No Surprises.</span>
         </div>
       </div>
+    </div>
+    <!-- Mobile scroll hint -->
+    <div class="strip__hint" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </div>
 
@@ -2096,6 +2139,34 @@
       transform: translateY(0);
     }
   </style>
+
+  <script>
+    /* ── Strip: drag-to-scroll + hide hint on first scroll ── */
+    (function () {
+      const strip = document.querySelector('.strip__scroll');
+      const hint  = document.querySelector('.strip__hint');
+      if (!strip) return;
+
+      /* Hide hint once user scrolls the strip */
+      strip.addEventListener('scroll', function () {
+        if (hint) hint.classList.add('is-gone');
+      }, { once: true, passive: true });
+
+      /* Drag-to-scroll (mouse) */
+      let isDown = false, startX, scrollLeft;
+      strip.addEventListener('mousedown', e => {
+        isDown = true;
+        startX = e.pageX - strip.offsetLeft;
+        scrollLeft = strip.scrollLeft;
+      });
+      document.addEventListener('mouseup',   () => { isDown = false; });
+      document.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        strip.scrollLeft = scrollLeft - (e.pageX - strip.offsetLeft - startX);
+      });
+    })();
+  </script>
 
   <script>
     (function () {
