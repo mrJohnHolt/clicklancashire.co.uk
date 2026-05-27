@@ -538,6 +538,53 @@
     @media (min-width: 520px)  { .services__grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1000px) { .services__grid { grid-template-columns: repeat(4, 1fr); } }
 
+    /* Featured (5th) service card — full-width row with horizontal layout */
+    .svc-card--featured {
+      background: linear-gradient(135deg, var(--c-elevated) 0%, rgba(0 212 255 / 0.05) 100%);
+      border-color: rgba(0 212 255 / 0.18);
+    }
+    @media (min-width: 1000px) {
+      .svc-card--featured {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        grid-template-rows: auto auto;
+        column-gap: var(--sp-6);
+        row-gap: var(--sp-2);
+        padding: var(--sp-6) var(--sp-8);
+        align-items: center;
+      }
+      .svc-card--featured .svc-card__ico {
+        grid-column: 1; grid-row: 1 / 3;
+        align-self: center;
+        width: 60px; height: 60px;
+        font-size: 1.4rem;
+      }
+      .svc-card--featured .svc-card__title {
+        grid-column: 2; grid-row: 1;
+      }
+      .svc-card--featured .svc-card__desc {
+        grid-column: 2; grid-row: 2;
+        flex: unset;
+      }
+      .svc-card--featured .svc-card__link {
+        grid-column: 3; grid-row: 1 / 3;
+        align-self: center;
+        margin-top: 0;
+        white-space: nowrap;
+        padding: 0.6rem 1.2rem;
+        border: 1px solid rgba(0 212 255 / 0.3);
+        border-radius: var(--r-sm);
+        background: var(--c-accent-dim);
+        font-size: 0.9rem;
+        transition: background 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+      }
+      .svc-card--featured .svc-card__link:hover {
+        background: rgba(0 212 255 / 0.18);
+        border-color: rgba(0 212 255 / 0.55);
+      }
+    }
+
     .svc-card {
       background: var(--c-elevated);
       border: 1px solid var(--c-border);
@@ -616,6 +663,94 @@
       transition: gap 0.2s ease;
     }
     .svc-card:hover .svc-card__link { gap: 10px; }
+
+    /* ═══════════════════════════════════════
+       4b. AI & AUTOMATION
+    ═══════════════════════════════════════ */
+    .ai-section {
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-section::before {
+      content: '';
+      position: absolute;
+      top: -140px; right: -100px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(0 212 255 / 0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .ai-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-10);
+    }
+    @media (min-width: 900px) {
+      .ai-inner {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: var(--sp-16);
+      }
+    }
+
+    .ai-hl {
+      font-family: var(--f-display);
+      font-size: clamp(1.75rem, 3.8vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.1;
+      margin-bottom: var(--sp-5);
+    }
+    .ai-hl em { font-style: normal; color: var(--c-accent); }
+
+    .ai-body {
+      font-size: 0.97rem;
+      color: var(--c-text-2);
+      line-height: 1.75;
+      margin-bottom: var(--sp-8);
+    }
+
+    .ai-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+
+    .ai-benefit {
+      display: flex;
+      gap: var(--sp-4);
+      background: var(--c-elevated);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-5);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .ai-benefit:hover {
+      border-color: rgba(0 212 255 / 0.25);
+      box-shadow: 0 8px 30px rgb(0 0 0 / 0.35);
+    }
+    .ai-benefit__ico {
+      width: 44px; height: 44px;
+      background: var(--c-accent-dim);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--c-accent);
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+    .ai-benefit__title {
+      font-family: var(--f-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--sp-2);
+    }
+    .ai-benefit__desc {
+      font-size: 0.85rem;
+      color: var(--c-text-2);
+      line-height: 1.65;
+    }
 
     /* ═══════════════════════════════════════
        5. PROCESS
@@ -716,30 +851,30 @@
       display: grid;
       grid-template-columns: 1fr;
     }
-    @media (min-width: 640px) {
-      .results__grid { grid-template-columns: repeat(3, 1fr); }
-    }
+    @media (min-width: 640px)  { .results__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px)  { .results__grid { grid-template-columns: repeat(4, 1fr); } }
 
     .stat {
-      padding: var(--sp-12) var(--sp-8);
+      padding: var(--sp-10) var(--sp-6);
       text-align: center;
       position: relative;
     }
-    /* Dividers */
-    @media (min-width: 640px) {
+    /* Vertical dividers: 4-col layout only */
+    @media (min-width: 900px) {
       .stat:not(:last-child)::after {
         content: '';
         position: absolute;
-        right: 0; top: var(--sp-8); bottom: var(--sp-8);
+        right: 0; top: var(--sp-6); bottom: var(--sp-6);
         width: 1px;
         background: var(--c-border);
       }
     }
-    @media (max-width: 639px) {
+    /* Horizontal dividers: below 900px */
+    @media (max-width: 899px) {
       .stat:not(:last-child)::after {
         content: '';
         position: absolute;
-        bottom: 0; left: var(--sp-8); right: var(--sp-8);
+        bottom: 0; left: var(--sp-6); right: var(--sp-6);
         height: 1px;
         background: var(--c-border);
       }
@@ -985,7 +1120,8 @@
     }
     .btn-submit:active { transform: translateY(0); }
     .btn-submit:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
-    .btn-submit.sent { background: var(--c-green); box-shadow: none; }
+    .btn-submit.sent  { background: var(--c-green); box-shadow: none; }
+    .btn-submit.error { background: #f87171;        box-shadow: none; font-size: 0.85rem; }
 
     /* ═══════════════════════════════════════
        9. FOOTER
@@ -1079,6 +1215,7 @@
 
         <ul class="nav__links" role="list">
           <li><a href="#services">Services</a></li>
+          <li><a href="#automation">Automation</a></li>
           <li><a href="#work">Work</a></li>
           <li><a href="#process">Process</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -1102,10 +1239,11 @@
   <!-- Mobile drawer -->
   <div class="nav__drawer" id="drawer" role="dialog" aria-label="Navigation">
     <ul>
-      <li><a href="#services" class="js-close-drawer">Services</a></li>
-      <li><a href="#work"     class="js-close-drawer">Work</a></li>
-      <li><a href="#process"  class="js-close-drawer">Process</a></li>
-      <li><a href="#contact"  class="js-close-drawer">Contact</a></li>
+      <li><a href="#services"   class="js-close-drawer">Services</a></li>
+      <li><a href="#automation" class="js-close-drawer">Automation</a></li>
+      <li><a href="#work"       class="js-close-drawer">Work</a></li>
+      <li><a href="#process"    class="js-close-drawer">Process</a></li>
+      <li><a href="#contact"    class="js-close-drawer">Contact</a></li>
     </ul>
     <a href="#contact" class="drawer-cta js-close-drawer">Get a Free Quote →</a>
   </div>
@@ -1254,6 +1392,79 @@
           <a href="#contact" class="svc-card__link">Talk to me →</a>
         </div>
 
+        <!-- Card 5 — Featured -->
+        <div class="svc-card svc-card--featured">
+          <div class="svc-card__ico" aria-hidden="true">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <h3 class="svc-card__title">Microsoft 365 AI &amp; Automation</h3>
+          <p class="svc-card__desc">AI agents, Power Apps, and automation workflows that make your team 40–60% more efficient. Bespoke Microsoft 365 consultancy and practical AI training built around real, measurable results for SMEs.</p>
+          <a href="#automation" class="svc-card__link">See what's possible →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       4b. AI & AUTOMATION
+  ══════════════════════════════════ -->
+  <section class="section section--alt ai-section" id="automation">
+    <div class="wrap">
+      <div class="ai-inner">
+
+        <!-- Left: headline + copy + CTA -->
+        <div>
+          <div class="eyebrow"><i class="fa-solid fa-microchip"></i> AI &amp; Automation</div>
+          <h2 class="ai-hl">
+            Make your team <em>40–60% more efficient</em> without growing your headcount
+          </h2>
+          <p class="ai-body">
+            I build bespoke Microsoft 365 solutions: Power Apps, Power Automate workflows, and AI agents that remove the repetitive work slowing your business down. From replacing the workload of five members of staff with a single AI agent, to hands-on training that prevents hallucination and stays within usage limits, every solution is built around practical, measurable results for your team.
+          </p>
+          <a href="#contact" class="btn btn--primary">
+            Let's talk automation
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Right: 3 benefit callouts -->
+        <div class="ai-benefits">
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Replace Repetitive Tasks</div>
+              <p class="ai-benefit__desc">AI agents handle the admin, data entry, and workflows that eat your team's time, freeing them for the work that actually moves your business forward.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">40–60% Efficiency Gains</div>
+              <p class="ai-benefit__desc">Measurable productivity improvements delivered through Power Apps and automation workflows built around your existing Microsoft 365 setup.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Practical AI Training</div>
+              <p class="ai-benefit__desc">Hands-on training that teaches your team to get real value from AI — including how to avoid hallucinations and stay within platform limits.</p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </section>
@@ -1262,7 +1473,7 @@
   <!-- ══════════════════════════════════
        5. PROCESS
   ══════════════════════════════════ -->
-  <section class="section section--alt" id="process">
+  <section class="section" id="process">
     <div class="wrap">
       <div class="section__hd">
         <div class="eyebrow"><i class="fa-solid fa-gears"></i> How It Works</div>
@@ -1327,6 +1538,11 @@
             <div class="stat__num">Fixed</div>
             <div class="stat__label">Transparent Pricing</div>
             <div class="stat__note">No hourly billing. No surprises. Ever.</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">40–60%</div>
+            <div class="stat__label">Efficiency Improvement</div>
+            <div class="stat__note">Delivered through AI &amp; automation</div>
           </div>
         </div>
       </div>
@@ -1426,14 +1642,20 @@
         <!-- Right: form -->
         <div class="form-card">
           <form id="contactForm" novalidate>
+            <!-- Formspree hidden fields -->
+            <input type="hidden" name="_subject" value="New enquiry via Click Lancashire">
+            <input type="hidden" name="_next"    value="">
+            <!-- Honeypot spam trap — hidden from real users -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
             <div class="form-row">
               <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                <input type="text" id="firstName" name="First Name" placeholder="John" required>
               </div>
               <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" placeholder="Smith" required>
+                <input type="text" id="lastName" name="Last Name" placeholder="Smith" required>
               </div>
             </div>
             <div class="form-group">
@@ -1442,11 +1664,11 @@
             </div>
             <div class="form-group">
               <label for="bizName">Business Name</label>
-              <input type="text" id="bizName" name="bizName" placeholder="Smith's Bakery">
+              <input type="text" id="bizName" name="Business Name" placeholder="Smith's Bakery">
             </div>
             <div class="form-group">
               <label for="message">Tell me about your project</label>
-              <textarea id="message" name="message" placeholder="I run a local plumbing business and need a website that shows my services and gets customers calling..." required></textarea>
+              <textarea id="message" name="Message" placeholder="I run a local plumbing business and need a website that shows my services and gets customers calling..." required></textarea>
             </div>
             <button type="submit" class="btn-submit" id="submitBtn">
               Send Message →
@@ -1470,7 +1692,7 @@
             <div class="logo-mark">CL</div>
             Click Lancashire
           </div>
-          <div class="footer__tagline">Professional websites for small businesses across Lancashire.</div>
+          <div class="footer__tagline">Professional websites &amp; Microsoft 365 automation for small businesses across Lancashire.</div>
         </div>
         <ul class="footer__nav" role="list">
           <li><a href="#services">Services</a></li>
@@ -1531,14 +1753,73 @@
     };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    /* ── Contact form ── */
-    document.getElementById('contactForm').addEventListener('submit', e => {
+    /* ── Contact form (Formspree AJAX) ──────────────────────────────
+       1. Go to https://formspree.io and create a free account
+       2. Create a new form — copy the endpoint ID (e.g. "xpzbkgrd")
+       3. Paste it in place of YOUR_FORM_ID below
+    ────────────────────────────────────────────────────────────── */
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xeedvjrk';
+
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn   = document.getElementById('submitBtn');
+
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      btn.textContent = '✓  Message sent. I\'ll be in touch shortly!';
-      btn.classList.add('sent');
-      btn.disabled = true;
+
+      // Basic client-side required-field check
+      const required = contactForm.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(field => {
+        field.style.borderColor = '';
+        if (!field.value.trim()) {
+          field.style.borderColor = '#f87171';
+          valid = false;
+        }
+      });
+      if (!valid) return;
+
+      // Loading state
+      submitBtn.disabled  = true;
+      submitBtn.textContent = 'Sending…';
+      submitBtn.style.opacity = '0.75';
+
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method:  'POST',
+          body:    new FormData(contactForm),
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (res.ok) {
+          // Success
+          submitBtn.textContent   = '✓  Message sent. I\'ll be in touch shortly!';
+          submitBtn.classList.add('sent');
+          submitBtn.style.opacity = '1';
+          contactForm.reset();
+        } else {
+          // Formspree returned an error
+          const data = await res.json().catch(() => ({}));
+          const msg  = (data.errors || []).map(e => e.message).join(', ')
+                       || 'Something went wrong. Please try again.';
+          showFormError(msg);
+        }
+      } catch {
+        // Network failure
+        showFormError('Could not send — please check your connection and try again.');
+      }
     });
+
+    function showFormError(msg) {
+      submitBtn.textContent   = msg;
+      submitBtn.classList.add('error');
+      submitBtn.style.opacity = '1';
+      submitBtn.disabled      = false;
+      // Reset error state after 5 s so they can retry
+      setTimeout(() => {
+        submitBtn.textContent = 'Send Message →';
+        submitBtn.classList.remove('error');
+      }, 5000);
+    }
   </script>
 
 </body>
