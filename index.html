@@ -72,9 +72,18 @@
     ═══════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
+    /* ─ Shader canvas ─ */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      display: block;
+    }
+
     body {
       font-family: var(--f-body);
-      background: var(--c-base);
+      background: transparent;
       color: var(--c-text-1);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -123,8 +132,8 @@
     }
 
     /* ─ Section rhythm ─ */
-    .section        { padding-block: var(--sp-24); }
-    .section--alt   { background: var(--c-surface); }
+    .section        { padding-block: var(--sp-24); background: rgba(6,8,15,0.82); }
+    .section--alt   { background: rgba(11,16,25,0.87); }
     .section__hd    { margin-bottom: var(--sp-12); }
     .section__title {
       font-family: var(--f-display);
@@ -1201,6 +1210,8 @@
 </head>
 <body>
 
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <!-- ══════════════════════════════════
        1. NAVIGATION
   ══════════════════════════════════ -->
@@ -1820,6 +1831,189 @@
         submitBtn.classList.remove('error');
       }, 5000);
     }
+  </script>
+
+  <!-- ══════════════════════════════════
+       WEBGL SHADER BACKGROUND
+  ══════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Reduced-motion: static fallback ──────────────────────────── */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.getElementById('bg-canvas').style.background = '#06080f';
+      return;
+    }
+
+    const canvas = document.getElementById('bg-canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) { canvas.style.background = '#06080f'; return; }
+
+    /* ── Vertex shader (pass-through quad) ────────────────────────── */
+    const VS = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+
+    /* ── Fragment shader ───────────────────────────────────────────── */
+    const FS = `
+      precision highp float;
+
+      uniform float u_time;
+      uniform vec2  u_res;
+      uniform vec2  u_mouse;   /* GL coords: (0,0)=bottom-left, (1,1)=top-right */
+
+      /* ── Noise primitives ────────────────────────────────── */
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+      float vnoise(vec2 p) {
+        vec2 i = floor(p), f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i),             hash(i + vec2(1,0)), u.x),
+          mix(hash(i + vec2(0,1)), hash(i + vec2(1,1)), u.x),
+          u.y
+        );
+      }
+      float fbm(vec2 p) {
+        float v = 0.0, amp = 0.5;
+        mat2 rot = mat2(0.80, 0.60, -0.60, 0.80);
+        for (int i = 0; i < 4; i++) {
+          v += amp * vnoise(p);
+          p = rot * p * 2.1 + 100.0;
+          amp *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2  uv     = gl_FragCoord.xy / u_res;
+        float aspect = u_res.x / u_res.y;
+
+        /* ── Base: barely-drifting noise texture ─────────────── */
+        vec2  p = uv * vec2(aspect, 1.0) * 2.5;
+        float n = fbm(p + u_time * 0.012);
+
+        /* Deep navy base with a whisper of teal from noise */
+        vec3 col = mix(
+          vec3(0.024, 0.031, 0.059),   /* #06080f */
+          vec3(0.012, 0.078, 0.112),   /* dark ocean tint */
+          n * 0.20
+        );
+
+        /* ── Mouse spotlight ─────────────────────────────────── */
+        vec2  d    = uv - u_mouse;
+        d.x       *= aspect;           /* ensure circular, not elliptical */
+        float dist = length(d);
+
+        /* Layer 1 — wide ambient lift (entire half-screen) */
+        col += vec3(0.000, 0.220, 0.340) * exp(-dist * dist * 0.55) * 0.14;
+
+        /* Layer 2 — mid glow (the visible "light pool") */
+        col += vec3(0.000, 0.580, 0.760) * exp(-dist * dist * 3.8)  * 0.28;
+
+        /* Layer 3 — tight bright core at cursor tip */
+        col += vec3(0.000, 0.831, 1.000) * exp(-dist * dist * 22.0) * 0.55;
+
+        /* ── Edge vignette ───────────────────────────────────── */
+        vec2  cv  = uv - 0.5;
+        float vig = clamp(1.0 - dot(cv, cv) * 1.15, 0.0, 1.0);
+        col      *= mix(0.42, 1.0, vig);
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    /* ── Compile helper ────────────────────────────────────────────── */
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.warn('Shader error:', gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
+    }
+
+    const vs = compile(gl.VERTEX_SHADER, VS);
+    const fs = compile(gl.FRAGMENT_SHADER, FS);
+    if (!vs || !fs) { canvas.style.background = '#06080f'; return; }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn('Shader link error:', gl.getProgramInfoLog(prog));
+      canvas.style.background = '#06080f';
+      return;
+    }
+    gl.useProgram(prog);
+
+    /* ── Full-screen quad ──────────────────────────────────────────── */
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1,-1,  1,-1, -1, 1,
+       1,-1,  1, 1, -1, 1,
+    ]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    /* ── Uniforms ──────────────────────────────────────────────────── */
+    const uTime  = gl.getUniformLocation(prog, 'u_time');
+    const uRes   = gl.getUniformLocation(prog, 'u_res');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+    /* ── Resize ────────────────────────────────────────────────────── */
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    /* ── Mouse / touch tracking with spring interpolation ─────────── */
+    let tx = 0.5, ty = 0.5;   /* target (normalised, GL coords) */
+    let mx = 0.5, my = 0.5;   /* smoothed */
+
+    window.addEventListener('mousemove', e => {
+      tx = e.clientX / window.innerWidth;
+      ty = 1.0 - e.clientY / window.innerHeight; /* flip Y for GL */
+    }, { passive: true });
+
+    window.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      tx = t.clientX / window.innerWidth;
+      ty = 1.0 - t.clientY / window.innerHeight;
+    }, { passive: true });
+
+    /* ── Render loop ───────────────────────────────────────────────── */
+    const SPRING = 0.055; /* ~0.055 per frame at 60 fps = silky lag */
+    let start = null;
+
+    function frame(ts) {
+      if (!start) start = ts;
+
+      /* Spring the spotlight towards the cursor */
+      mx += (tx - mx) * SPRING;
+      my += (ty - my) * SPRING;
+
+      gl.uniform1f(uTime,  (ts - start) * 0.001);
+      gl.uniform2f(uMouse, mx, my);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  })();
   </script>
 
 </body>
