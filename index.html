@@ -31,9 +31,15 @@
 
         <ul class="nav__links" role="list">
           <li><a href="#services">Services</a></li>
-          <li><a href="automation.html">Automation</a></li>
+          <li class="nav__has-dropdown">
+            <a href="automation.html">Automation <svg class="nav__chevron" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M1.5 3L4.5 6L7.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <ul class="nav__dropdown" role="list">
+              <li><a href="automation.html">Business</a></li>
+              <li><a href="productivity-training.html">Individuals</a></li>
+            </ul>
+          </li>
+          <li><a href="productivity-training.html">Training</a></li>
           <li><a href="#work">Work</a></li>
-          <li><a href="#process">Process</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -56,9 +62,15 @@
   <div class="nav__drawer" id="drawer" role="dialog" aria-label="Navigation">
     <ul>
       <li><a href="#services"   class="js-close-drawer">Services</a></li>
-      <li><a href="automation.html" class="js-close-drawer">Automation</a></li>
+      <li>
+        <a href="automation.html" class="js-close-drawer">Automation</a>
+        <div class="drawer-sub">
+          <a href="automation.html" class="js-close-drawer">Business</a>
+          <a href="productivity-training.html" class="js-close-drawer">Individuals</a>
+        </div>
+      </li>
+      <li><a href="productivity-training.html" class="js-close-drawer">Training</a></li>
       <li><a href="#work"       class="js-close-drawer">Work</a></li>
-      <li><a href="#process"    class="js-close-drawer">Process</a></li>
       <li><a href="#contact"    class="js-close-drawer">Contact</a></li>
     </ul>
   </div>
@@ -321,7 +333,7 @@
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
-            <a href="automation.html" class="btn btn--ghost">
+            <a href="productivity-training.html" class="btn btn--ghost">
               More Info
             </a>
           </div>
@@ -981,9 +993,9 @@
       <i class="fa-solid fa-images" aria-hidden="true"></i>
       <span>Work</span>
     </a>
-    <a href="#process"    class="bottom-nav__item" data-section="process">
-      <i class="fa-solid fa-list-check" aria-hidden="true"></i>
-      <span>Process</span>
+    <a href="productivity-training.html" class="bottom-nav__item">
+      <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+      <span>Training</span>
     </a>
     <a href="#contact"    class="bottom-nav__item" data-section="contact">
       <i class="fa-solid fa-envelope" aria-hidden="true"></i>

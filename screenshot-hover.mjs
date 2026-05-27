@@ -1,0 +1,11 @@
+import puppeteer from 'puppeteer';
+const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true });
+const page = await browser.newPage();
+await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1.5 });
+await page.goto('http://localhost:3000', { waitUntil: 'networkidle0', timeout: 30000 });
+await new Promise(r => setTimeout(r, 1000));
+await page.hover('.nav__has-dropdown');
+await new Promise(r => setTimeout(r, 400));
+await page.screenshot({ path: 'temporary screenshots/sec-2-nav-hover.png', clip: { x: 0, y: 0, width: 1440, height: 140 } });
+await browser.close();
+console.log('done');
