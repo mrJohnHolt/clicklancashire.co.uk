@@ -1868,7 +1868,7 @@
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) { canvas.style.background = '#06080f'; return; }
 
-    /* ── Vertex shader (pass-through quad) ────────────────────────── */
+    /* ── Vertex shader ─────────────────────────────────────────────── */
     const VS = `
       attribute vec2 a_pos;
       void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
@@ -1880,9 +1880,10 @@
 
       uniform float u_time;
       uniform vec2  u_res;
-      uniform vec2  u_mouse;   /* GL coords: (0,0)=bottom-left, (1,1)=top-right */
+      uniform vec2  u_cursor;  /* fast follower — tight glow */
+      uniform vec2  u_ghost;   /* slow follower — dissipating trail */
 
-      /* ── Noise primitives ────────────────────────────────── */
+      /* ── Noise helpers ───────────────────────────────────── */
       float hash(vec2 p) {
         return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
       }
@@ -1890,8 +1891,8 @@
         vec2 i = floor(p), f = fract(p);
         vec2 u = f * f * (3.0 - 2.0 * f);
         return mix(
-          mix(hash(i),             hash(i + vec2(1,0)), u.x),
-          mix(hash(i + vec2(0,1)), hash(i + vec2(1,1)), u.x),
+          mix(hash(i),             hash(i + vec2(1.0, 0.0)), u.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
           u.y
         );
       }
@@ -1906,45 +1907,50 @@
         return v;
       }
 
+      /* ── Aspect-corrected squared distance ───────────────── */
+      float adist2(vec2 a, vec2 b, float aspect) {
+        vec2 d = (a - b) * vec2(aspect, 1.0);
+        return dot(d, d);
+      }
+
       void main() {
         vec2  uv     = gl_FragCoord.xy / u_res;
         float aspect = u_res.x / u_res.y;
 
-        /* ── Base: barely-drifting noise texture ─────────────── */
+        /* ── Barely-drifting noise base ──────────────────────── */
         vec2  p = uv * vec2(aspect, 1.0) * 2.5;
         float n = fbm(p + u_time * 0.012);
-
-        /* Deep navy base with a whisper of teal from noise */
         vec3 col = mix(
-          vec3(0.024, 0.031, 0.059),   /* #06080f */
-          vec3(0.012, 0.078, 0.112),   /* dark ocean tint */
-          n * 0.20
+          vec3(0.024, 0.031, 0.059),
+          vec3(0.010, 0.072, 0.105),
+          n * 0.18
         );
 
-        /* ── Mouse spotlight ─────────────────────────────────── */
-        vec2  d    = uv - u_mouse;
-        d.x       *= aspect;           /* ensure circular, not elliptical */
-        float dist = length(d);
+        /* ── How far apart are cursor and ghost?
+               → drives trail intensity (0 when still, 1 when moving fast) */
+        float sep   = sqrt(adist2(u_cursor, u_ghost, aspect));
+        float speed = clamp(sep * 9.0, 0.0, 1.0);
 
-        /* Layer 1 — wide ambient lift (entire half-screen) */
-        col += vec3(0.000, 0.220, 0.340) * exp(-dist * dist * 0.55) * 0.14;
+        /* ── Cursor glow (tight, always visible) ─────────────── */
+        float dc2 = adist2(uv, u_cursor, aspect);
+        col += vec3(0.000, 0.831, 1.000) * exp(-dc2 * 72.0) * 0.18; /* bright core   */
+        col += vec3(0.000, 0.620, 0.800) * exp(-dc2 * 22.0) * 0.07; /* soft halo     */
 
-        /* Layer 2 — mid glow (the visible "light pool") */
-        col += vec3(0.000, 0.580, 0.760) * exp(-dist * dist * 3.8)  * 0.28;
-
-        /* Layer 3 — tight bright core at cursor tip */
-        col += vec3(0.000, 0.831, 1.000) * exp(-dist * dist * 22.0) * 0.55;
+        /* ── Ghost trail (only visible while moving) ─────────── */
+        float dg2 = adist2(uv, u_ghost, aspect);
+        col += vec3(0.000, 0.450, 0.640) * exp(-dg2 * 14.0) * 0.05 * speed; /* trail body  */
+        col += vec3(0.000, 0.200, 0.320) * exp(-dg2 *  2.8) * 0.02 * speed; /* wide wash   */
 
         /* ── Edge vignette ───────────────────────────────────── */
         vec2  cv  = uv - 0.5;
         float vig = clamp(1.0 - dot(cv, cv) * 1.15, 0.0, 1.0);
-        col      *= mix(0.42, 1.0, vig);
+        col      *= mix(0.40, 1.0, vig);
 
         gl_FragColor = vec4(col, 1.0);
       }
     `;
 
-    /* ── Compile helper ────────────────────────────────────────────── */
+    /* ── Compile / link ────────────────────────────────────────────── */
     function compile(type, src) {
       const s = gl.createShader(type);
       gl.shaderSource(s, src);
@@ -1955,7 +1961,6 @@
       }
       return s;
     }
-
     const vs = compile(gl.VERTEX_SHADER, VS);
     const fs = compile(gl.FRAGMENT_SHADER, FS);
     if (!vs || !fs) { canvas.style.background = '#06080f'; return; }
@@ -1983,9 +1988,10 @@
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
     /* ── Uniforms ──────────────────────────────────────────────────── */
-    const uTime  = gl.getUniformLocation(prog, 'u_time');
-    const uRes   = gl.getUniformLocation(prog, 'u_res');
-    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+    const uTime   = gl.getUniformLocation(prog, 'u_time');
+    const uRes    = gl.getUniformLocation(prog, 'u_res');
+    const uCursor = gl.getUniformLocation(prog, 'u_cursor');
+    const uGhost  = gl.getUniformLocation(prog, 'u_ghost');
 
     /* ── Resize ────────────────────────────────────────────────────── */
     function resize() {
@@ -1998,34 +2004,41 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    /* ── Mouse / touch tracking with spring interpolation ─────────── */
-    let tx = 0.5, ty = 0.5;   /* target (normalised, GL coords) */
-    let mx = 0.5, my = 0.5;   /* smoothed */
+    /* ── Input tracking ────────────────────────────────────────────── */
+    let tx = 0.5, ty = 0.5;          /* raw target */
 
-    window.addEventListener('mousemove', e => {
-      tx = e.clientX / window.innerWidth;
-      ty = 1.0 - e.clientY / window.innerHeight; /* flip Y for GL */
-    }, { passive: true });
+    function setTarget(clientX, clientY) {
+      tx = clientX / window.innerWidth;
+      ty = 1.0 - clientY / window.innerHeight; /* flip Y → GL */
+    }
+    window.addEventListener('mousemove', e => setTarget(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', e => setTarget(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
 
-    window.addEventListener('touchmove', e => {
-      const t = e.touches[0];
-      tx = t.clientX / window.innerWidth;
-      ty = 1.0 - t.clientY / window.innerHeight;
-    }, { passive: true });
+    /* ── Two-spring system ─────────────────────────────────────────── */
+    let cx = 0.5, cy = 0.5;  /* cursor  — snappy, close to pointer     */
+    let gx = 0.5, gy = 0.5;  /* ghost   — slow, creates fading trail   */
+
+    const CURSOR_K = 0.14;   /* fast: reaches target in ~0.3 s         */
+    const GHOST_K  = 0.022;  /* slow: trails ~1–2 s behind, then fades */
 
     /* ── Render loop ───────────────────────────────────────────────── */
-    const SPRING = 0.055; /* ~0.055 per frame at 60 fps = silky lag */
     let start = null;
 
     function frame(ts) {
       if (!start) start = ts;
 
-      /* Spring the spotlight towards the cursor */
-      mx += (tx - mx) * SPRING;
-      my += (ty - my) * SPRING;
+      /* Cursor spring — chases the raw pointer target */
+      cx += (tx - cx) * CURSOR_K;
+      cy += (ty - cy) * CURSOR_K;
 
-      gl.uniform1f(uTime,  (ts - start) * 0.001);
-      gl.uniform2f(uMouse, mx, my);
+      /* Ghost spring — chases the cursor position (not the target).
+         The gap between ghost and cursor IS the visible trail. */
+      gx += (cx - gx) * GHOST_K;
+      gy += (cy - gy) * GHOST_K;
+
+      gl.uniform1f(uTime,   (ts - start) * 0.001);
+      gl.uniform2f(uCursor, cx, cy);
+      gl.uniform2f(uGhost,  gx, gy);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       requestAnimationFrame(frame);
     }
