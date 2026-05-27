@@ -978,7 +978,8 @@
 
     /* Tighten gap between employee automation and process sections */
     #automation-individual { padding-block-end: var(--sp-12); }
-    #process               { padding-block-start: var(--sp-12); }
+    #process               { padding-block-start: var(--sp-12); padding-block-end: var(--sp-12); }
+    #results               { padding-block-start: var(--sp-12); }
 
     /* Employee automation — glow left, columns reversed on desktop */
     .ai-section--emp::before {
@@ -1842,7 +1843,7 @@
   <!-- ══════════════════════════════════
        6. RESULTS
   ══════════════════════════════════ -->
-  <section class="section">
+  <section class="section" id="results">
     <div class="wrap">
       <div class="section__hd" style="text-align:center;">
         <div class="eyebrow" style="justify-content:center;"><i class="fa-solid fa-chart-simple"></i> By the Numbers</div>
