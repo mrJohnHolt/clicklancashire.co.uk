@@ -215,6 +215,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--sp-6);
+      position: relative;
     }
 
     /* Logo */
@@ -352,20 +353,20 @@
       border-bottom: none !important;
     }
 
-    @media (min-width: 768px) {
+    /* Desktop nav — only at 1024px+ */
+    @media (min-width: 1024px) {
       .nav__links { display: flex; }
       .nav__cta   { display: inline-flex; }
       .nav__burger { display: none; }
     }
-    /* Hide burger + drawer on mobile (replaced by bottom nav) */
-    @media (max-width: 767px) {
-      .nav__burger { display: none; }
-      .nav__drawer { display: none !important; }
+    /* Mobile + tablet (0–1023px): bottom nav + burger both visible */
+    @media (max-width: 1023px) {
+      /* burger is visible; drawer works as secondary nav */
       body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
     }
 
     /* ═══════════════════════════════════════
-       BOTTOM NAV (mobile only)
+       BOTTOM NAV (mobile + tablet, 0–1023px)
     ═══════════════════════════════════════ */
     .bottom-nav {
       position: fixed;
@@ -415,11 +416,7 @@
     .bottom-nav__item.is-active i { transform: translateY(-2px); }
     .bottom-nav__item.is-active::after { transform: translateX(-50%) scaleX(1); }
     /* Hide on desktop */
-    @media (min-width: 768px) { .bottom-nav { display: none; } }
-    /* Push page content above bar on mobile */
-    @media (max-width: 767px) {
-      body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
-    }
+    @media (min-width: 1024px) { .bottom-nav { display: none; } }
 
     /* ═══════════════════════════════════════
        2. HERO
@@ -433,7 +430,7 @@
       overflow: hidden;
     }
     @media (max-width: 767px) {
-      .hero { padding-block-start: var(--sp-5); padding-block-end: var(--sp-3); }
+      .hero { min-height: auto; padding-block-start: var(--sp-5); padding-block-end: var(--sp-8); }
       .hero__content { display: flex; flex-direction: column; }
       .hero__h1      { order: 1; margin-bottom: var(--sp-8); }
       .hero__badge   { order: 2; text-align: center; align-self: center; margin-bottom: var(--sp-6); }
@@ -539,8 +536,11 @@
       flex-wrap: wrap;
       gap: var(--sp-4);
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* mobile + tablet: centred */
       animation: fadein 0.5s 0.24s ease both;
+    }
+    @media (min-width: 1024px) {
+      .hero__actions { justify-content: flex-start; }
     }
 
     /* Scroll cue */
@@ -588,6 +588,10 @@
     }
     @media (max-width: 767px) {
       .strip { padding-block: var(--sp-3); }
+    }
+    /* Hide scroll-hint fade on tablet where items fit */
+    @media (min-width: 768px) and (max-width: 1100px) {
+      .strip::after { display: none; }
     }
     /* Right-edge fade: hints at more content */
     .strip::after {
@@ -687,6 +691,10 @@
     }
     @media (min-width: 520px)  { .services__grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1000px) { .services__grid { grid-template-columns: repeat(4, 1fr); } }
+    /* Featured card spans full width on 2-col grid (520–999px) */
+    @media (min-width: 520px) and (max-width: 999px) {
+      .svc-card--featured { grid-column: 1 / -1; }
+    }
 
     /* Featured (5th) service card — full-width row with horizontal layout */
     .svc-card--featured {
@@ -838,8 +846,25 @@
     @media (min-width: 900px) {
       .ai-inner {
         grid-template-columns: 1fr 1fr;
-        align-items: center;
+        align-items: stretch;
         gap: var(--sp-16);
+      }
+      /* Left col fills full height — CTA pins to bottom, text is larger */
+      .ai-inner > :first-child {
+        display: flex;
+        flex-direction: column;
+      }
+      .ai-inner > :first-child .ai-body {
+        font-size: 1.05rem;
+        line-height: 1.85;
+      }
+      .ai-inner > :first-child .ai-hl {
+        margin-bottom: var(--sp-8);
+      }
+      .ai-inner > :first-child .btn {
+        align-self: flex-start;
+        margin-top: auto;
+        margin-bottom: 1.875rem;
       }
     }
 
@@ -902,6 +927,64 @@
       line-height: 1.65;
     }
 
+    /* ── AI trust banner ── */
+    .ai-trust {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-10);
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--c-elevated);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+    }
+    .ai-trust__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      white-space: nowrap;
+      margin-right: var(--sp-1);
+    }
+    .ai-trust__items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+    .ai-trust__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--c-raised);
+      border: 1px solid var(--c-border-mid);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--c-text-2);
+      white-space: nowrap;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .ai-trust__pill i {
+      font-size: 0.72rem;
+      color: var(--c-accent);
+    }
+    .ai-trust__pill:hover {
+      border-color: rgba(0 212 255 / 0.35);
+      color: var(--c-text-1);
+    }
+
+    /* Employee automation — glow left, columns reversed on desktop */
+    .ai-section--emp::before {
+      top: -140px; right: auto; left: -100px;
+    }
+    @media (min-width: 900px) {
+      .ai-inner--rev > :first-child { order: 2; }
+      .ai-inner--rev > :last-child  { order: 1; }
+    }
+
     /* ═══════════════════════════════════════
        5. PROCESS
     ═══════════════════════════════════════ */
@@ -911,7 +994,11 @@
       gap: 0;
       position: relative;
     }
-    @media (min-width: 768px) {
+    /* Mobile: 1 col, tablet: 2 col, desktop: 4 col */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .process__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
       .process__grid { grid-template-columns: repeat(4, 1fr); }
     }
 
@@ -920,7 +1007,7 @@
       position: relative;
     }
 
-    /* Vertical connector (mobile) */
+    /* Vertical connector (mobile single-col) */
     @media (max-width: 767px) {
       .proc-step:not(:last-child)::after {
         content: '';
@@ -932,8 +1019,21 @@
         background: linear-gradient(to bottom, rgba(0 212 255 / 0.4), transparent);
       }
     }
-    /* Horizontal connector (desktop) */
-    @media (min-width: 768px) {
+    /* Vertical connectors for tablet 2-col (between rows, right col only) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .proc-step:nth-child(1)::after,
+      .proc-step:nth-child(2)::after {
+        content: '';
+        position: absolute;
+        left: calc(var(--sp-6) + 23px);
+        top: calc(var(--sp-8) + 48px);
+        width: 2px;
+        height: calc(100% - var(--sp-8) - 48px + var(--sp-4));
+        background: linear-gradient(to bottom, rgba(0 212 255 / 0.4), transparent);
+      }
+    }
+    /* Horizontal connectors (desktop 4-col) */
+    @media (min-width: 1024px) {
       .proc-step:not(:last-child)::after {
         content: '';
         position: absolute;
@@ -1533,18 +1633,8 @@
             <i class="fa-solid fa-headset"></i>
           </div>
           <h3 class="svc-card__title">Ongoing Support</h3>
-          <p class="svc-card__desc">Need updates, a new page, or just someone to call? Affordable monthly support plans keep your site fresh, secure, and working long after launch.</p>
+          <p class="svc-card__desc">Need updates, a new page, or just someone to call? I am here whenever you need me, with no contract and no monthly fees, keeping your site fresh, secure, and working long after launch.</p>
           <a href="#contact" class="svc-card__link">Talk to me →</a>
-        </div>
-
-        <!-- Card 5 — Featured -->
-        <div class="svc-card svc-card--featured">
-          <div class="svc-card__ico" aria-hidden="true">
-            <i class="fa-solid fa-robot"></i>
-          </div>
-          <h3 class="svc-card__title">Microsoft 365 AI &amp; Automation</h3>
-          <p class="svc-card__desc">AI agents, Power Apps, and automation workflows that make your team 40–60% more efficient. Bespoke Microsoft 365 consultancy and practical AI training built around real, measurable results for SMEs.</p>
-          <a href="#contact" class="svc-card__link">Let's talk automation →</a>
         </div>
 
       </div>
@@ -1557,6 +1647,20 @@
   ══════════════════════════════════ -->
   <section class="section section--alt ai-section" id="automation">
     <div class="wrap">
+
+      <!-- Trust signal banner -->
+      <div class="ai-trust" aria-label="Platforms covered">
+        <span class="ai-trust__label">Works with</span>
+        <div class="ai-trust__items">
+          <span class="ai-trust__pill"><i class="fa-brands fa-microsoft" aria-hidden="true"></i> Microsoft 365</span>
+          <span class="ai-trust__pill"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Power Automate</span>
+          <span class="ai-trust__pill"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i> Power Apps</span>
+          <span class="ai-trust__pill"><i class="fa-solid fa-robot" aria-hidden="true"></i> Copilot &amp; AI Agents</span>
+          <span class="ai-trust__pill"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> SharePoint</span>
+          <span class="ai-trust__pill"><i class="fa-brands fa-windows" aria-hidden="true"></i> Windows Productivity Apps</span>
+        </div>
+      </div>
+
       <div class="ai-inner">
 
         <!-- Left: headline + copy + CTA -->
@@ -1566,7 +1670,7 @@
             Make your team <em>40–60% more efficient</em> without growing your headcount
           </h2>
           <p class="ai-body">
-            I build bespoke Microsoft 365 solutions: Power Apps, Power Automate workflows, and AI agents that remove the repetitive work slowing your business down. From replacing the workload of five members of staff with a single AI agent, to hands-on training that prevents hallucination and stays within usage limits, every solution is built around practical, measurable results for your team.
+            I build bespoke Microsoft 365 solutions: Power Apps, Power Automate workflows, and AI agents that remove the repetitive work slowing your business down. From replacing the workload of five members of staff with a single AI agent, to hands-on training that prevents A.I hallucination and stays within usage limits, every solution is built around practical, measurable results for your team.
           </p>
           <a href="#contact" class="btn btn--primary">
             Let's talk automation
@@ -1606,6 +1710,79 @@
             <div>
               <div class="ai-benefit__title">Practical AI Training</div>
               <p class="ai-benefit__desc">Hands-on training that teaches your team to get real value from AI, including how to avoid hallucinations and stay within platform limits.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-brands fa-windows"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Windows Productivity Setup</div>
+              <p class="ai-benefit__desc">Stop switching, searching, and clicking through menus. A properly configured Windows environment means every tool, file, and workflow is one keystroke away, so you stay focused, move faster, and waste nothing on the small stuff.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       4c. AUTOMATION FOR INDIVIDUALS
+  ══════════════════════════════════ -->
+  <section class="section ai-section ai-section--emp" id="automation-individual">
+    <div class="wrap">
+      <div class="ai-inner ai-inner--rev">
+
+        <!-- col 1 (desktop: right) — headline + copy + CTA -->
+        <div>
+          <div class="eyebrow"><i class="fa-solid fa-user"></i> For Individuals</div>
+          <h2 class="ai-hl">
+            Take control <em>before your boss does.</em>
+          </h2>
+          <p class="ai-body">
+            You do not need a company-wide rollout to start working smarter. I work directly with individuals to automate the repetitive tasks eating your day, so you can focus on the work that actually gets you noticed.
+          </p>
+          <a href="#contact" class="btn btn--primary">
+            Let's talk
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- col 2 (desktop: left) — benefit callouts -->
+        <div class="ai-benefits">
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Reclaim Your Morning</div>
+              <p class="ai-benefit__desc">The reports, the copy-paste, the manual data pulls. I automate exactly those tasks so your 9am looks different within weeks, not months.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">No Company Sign-Off Required</div>
+              <p class="ai-benefit__desc">You already have Microsoft 365. I build solutions inside the tools you already use, no new software, no IT ticket, no waiting for approval.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Do the Work That Gets You Noticed</div>
+              <p class="ai-benefit__desc">When the grunt work is handled, you have space to think, to contribute, and to stand out. That is where careers actually move forward.</p>
             </div>
           </div>
 
@@ -2283,7 +2460,7 @@
   <script>
     /* ── Bottom nav scrollspy ── */
     (function () {
-      if (window.innerWidth > 767) return;
+      if (window.innerWidth > 1023) return;
       const items    = document.querySelectorAll('.bottom-nav__item');
       const sections = [...items]
         .map(el => document.getElementById(el.dataset.section))
