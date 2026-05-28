@@ -656,9 +656,17 @@ body::after {
 @media (max-width: 767px) {
   .strip { padding-block: var(--sp-3); }
 }
-/* Hide scroll-hint fade on tablet where items fit */
-@media (min-width: 768px) and (max-width: 1100px) {
+/* Hide scroll-hint fade on tablet/desktop where items fit */
+@media (min-width: 768px) {
   .strip::after { display: none; }
+}
+/* At desktop, tighten gap so all 5 items fit without scrolling */
+@media (min-width: 1100px) {
+  .strip__scroll {
+    gap: var(--sp-6);
+    overflow: visible;
+    justify-content: center;
+  }
 }
 /* Right-edge fade: hints at more content */
 .strip::after {
