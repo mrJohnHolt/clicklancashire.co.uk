@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Value | Click Lancashire</title>
+  <meta name="description" content="For every paid website, a Lancashire charity, cause, or individual in need receives a free professional website. Click Lancashire giving back to the community.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="site-wrapper">
+
+  <!-- ══════════════════════════════════
+       1. NAVIGATION
+  ══════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav__row">
+
+        <a href="index.html" class="nav__logo" aria-label="Click Lancashire home">
+          <div class="logo-mark">CL</div>
+          Click Lancashire
+        </a>
+
+        <ul class="nav__links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li class="nav__has-dropdown">
+            <a href="automation.html">Automation <svg class="nav__chevron" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M1.5 3L4.5 6L7.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <ul class="nav__dropdown" role="list">
+              <li><a href="automation.html">Business</a></li>
+              <li><a href="productivity-training.html">Individuals</a></li>
+            </ul>
+          </li>
+          <li><a href="productivity-training.html">Training</a></li>
+          <li><a href="social-value.html" class="is-current">Social Value</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+
+        <a href="index.html#contact" class="btn btn--primary nav__cta">
+          Get a Free Quote
+          <svg class="btn__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <button class="nav__burger" id="burger" aria-expanded="false" aria-label="Open navigation">
+          <span></span><span></span><span></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav__drawer" id="drawer" role="dialog" aria-label="Navigation">
+    <ul>
+      <li><a href="index.html"               class="js-close-drawer">Home</a></li>
+      <li>
+        <a href="automation.html" class="js-close-drawer">Automation</a>
+        <div class="drawer-sub">
+          <a href="automation.html" class="js-close-drawer">Business</a>
+          <a href="productivity-training.html" class="js-close-drawer">Individuals</a>
+        </div>
+      </li>
+      <li><a href="productivity-training.html" class="js-close-drawer">Training</a></li>
+      <li><a href="social-value.html"          class="js-close-drawer">Social Value</a></li>
+      <li><a href="index.html#contact"         class="js-close-drawer">Contact</a></li>
+    </ul>
+    <a href="index.html#contact" class="drawer-cta js-close-drawer">Get a Free Quote</a>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       2. HERO
+  ══════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero__content">
+
+        <div class="hero__badge">
+          <i class="fa-solid fa-hands-holding-heart" aria-hidden="true"></i>
+          Social Value Initiative · Lancashire
+        </div>
+
+        <h1 class="hero__h1">
+          Every website we build gives <em>something back</em> to Lancashire.
+        </h1>
+
+        <p class="hero__sub">
+          For every paid website, one Lancashire charity, cause, or individual in need receives a free, professional website built to exactly the same standard as yours. No compromise. No extra cost to you. Just good work doing good.
+        </p>
+
+        <div class="hero__actions">
+          <a href="#how" class="btn btn--primary">
+            See How It Works
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="index.html#contact" class="btn btn--ghost">
+            Start Your Project
+          </a>
+        </div>
+
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">Scroll</div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       3. HOW IT WORKS
+  ══════════════════════════════════ -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section__hd">
+        <div class="eyebrow"><i class="fa-solid fa-gears"></i> How It Works</div>
+        <h2 class="section__title">Simple, transparent,<br>and entirely free to you</h2>
+        <p class="section__sub">Three steps. No hidden conditions. Your project proceeds exactly as normal. A cause you care about benefits alongside it.</p>
+      </div>
+
+      <div class="process__grid process__grid--3">
+
+        <div class="proc-step">
+          <div class="proc-step__num" aria-hidden="true">01</div>
+          <h3 class="proc-step__title">Commission Your Website</h3>
+          <p class="proc-step__desc">Pay your deposit and commission your website as normal. The social value commitment is built into every project at no extra cost to you.</p>
+        </div>
+
+        <div class="proc-step">
+          <div class="proc-step__num" aria-hidden="true">02</div>
+          <h3 class="proc-step__title">Choose Your Cause</h3>
+          <p class="proc-step__desc">On full payment of your project, you choose a Lancashire charity, community cause, or individual in need to receive a free professional website.</p>
+        </div>
+
+        <div class="proc-step">
+          <div class="proc-step__num" aria-hidden="true">03</div>
+          <h3 class="proc-step__title">I Build Their Website</h3>
+          <p class="proc-step__desc">I build the chosen cause a complete, professional website. My full service, no watered-down version, no compromise on quality or care.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       4. COMMUNITY EVENT PAGES
+  ══════════════════════════════════ -->
+  <section class="section section--alt ai-section" id="events">
+    <div class="wrap">
+      <div class="ai-inner">
+
+        <!-- Left: headline + copy + CTA -->
+        <div>
+          <div class="eyebrow"><i class="fa-solid fa-calendar-check"></i> Community Events</div>
+          <h2 class="ai-hl">
+            Free single-page websites for <em>Lancashire community events</em>
+          </h2>
+          <p class="ai-body">
+            Running a beach clean along the Fylde coast? Organising a park tidy in Preston or a canal towpath day in Ribble Valley? I offer a completely free single-page website for local Lancashire community events. No catches, no reciprocal obligations, just a proper online presence for the work that keeps our county clean and connected.
+          </p>
+          <p class="ai-body" style="margin-top: calc(var(--sp-4) * -1);">
+            <strong style="color: var(--c-text-1);">Limited to one per month, first come first served.</strong> Get in touch early to secure your event's place.
+          </p>
+          <a href="index.html#contact" class="btn btn--primary" style="margin-top: auto; margin-bottom: 1.875rem;">
+            Claim Your Event Page
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Right: benefit callouts -->
+        <div class="ai-benefits">
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-water"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Beach Cleans</div>
+              <p class="ai-benefit__desc">A dedicated event page with location details, date, volunteer sign-up info, and organiser contact. Everything needed to get people down to the coast.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Park &amp; Green Space Cleans</div>
+              <p class="ai-benefit__desc">Whether it is a litter pick in a local park or a larger community improvement day, a proper web presence helps you reach more volunteers and make more impact.</p>
+            </div>
+          </div>
+
+          <div class="ai-benefit">
+            <div class="ai-benefit__ico" aria-hidden="true">
+              <i class="fa-solid fa-anchor"></i>
+            </div>
+            <div>
+              <div class="ai-benefit__title">Canal Towpath Days</div>
+              <p class="ai-benefit__desc">Lancashire's canal network is a community asset. Give your towpath maintenance or improvement day the online home it deserves to draw in supporters and volunteers.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       5. WHO CAN BENEFIT
+  ══════════════════════════════════ -->
+  <section class="section" id="who">
+    <div class="wrap">
+      <div class="section__hd">
+        <div class="eyebrow"><i class="fa-solid fa-people-group"></i> Who Can Benefit</div>
+        <h2 class="section__title">The free website is for<br>anyone with a genuine need</h2>
+        <p class="section__sub">The person commissioning the paid project chooses the recipient. Here is who qualifies.</p>
+      </div>
+
+      <div class="who-grid">
+
+        <div class="who-col">
+          <div class="who-col__title">
+            <div class="who-col__ico" aria-hidden="true"><i class="fa-solid fa-building-ngo"></i></div>
+            Organisations
+          </div>
+          <ul class="who-list">
+            <li>Registered charities operating in Lancashire</li>
+            <li>Non-profit organisations and community interest companies</li>
+            <li>Community groups without formal charity status but with a clear community purpose</li>
+            <li>Local sports clubs, youth groups, and volunteer-run societies</li>
+          </ul>
+        </div>
+
+        <div class="who-col">
+          <div class="who-col__title">
+            <div class="who-col__ico" aria-hidden="true"><i class="fa-solid fa-person"></i></div>
+            Individuals
+          </div>
+          <ul class="who-list">
+            <li>People with a genuine financial need who cannot afford professional services</li>
+            <li>Young people getting started: a sole trader, freelancer, or creative just launching</li>
+            <li>People with disabilities who face additional barriers to building an online presence</li>
+            <li>Individuals referred by a recognised support organisation or community group</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div style="margin-top: var(--sp-8); padding: var(--sp-5) var(--sp-6); background: var(--c-elevated); border: 1px solid var(--c-border-mid); border-radius: var(--r-md); display: flex; gap: var(--sp-4); align-items: flex-start;">
+        <div style="width: 40px; height: 40px; background: var(--c-accent-dim); border-radius: 10px; display: grid; place-items: center; color: var(--c-accent); font-size: 0.95rem; flex-shrink: 0;">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        </div>
+        <div>
+          <div style="font-family: var(--f-display); font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: var(--sp-1);">A valid reason is required</div>
+          <p style="font-size: 0.875rem; color: var(--c-text-2); line-height: 1.65;">The recipient does not need to apply formally, but a genuine need or community purpose must be clear. If you are unsure whether your chosen cause qualifies, just ask and I will always give an honest answer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       6. WHY WE DO THIS
+  ══════════════════════════════════ -->
+  <section class="section section--alt" id="why">
+    <div class="wrap">
+      <div style="max-width: 780px; margin-inline: auto; text-align: center;">
+        <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-heart"></i> Why We Do This</div>
+        <h2 class="section__title" style="margin-bottom: var(--sp-6);">Putting something back into<br>the place we call home</h2>
+        <p style="font-size: 1.05rem; color: var(--c-text-2); line-height: 1.85; margin-bottom: var(--sp-6);">
+          Click Lancashire exists because of Lancashire. Every client, every project, every referral comes from this county, from its people, its businesses, and its communities. It has always felt right that some of the value created here should stay here, going directly to the causes and individuals who need it most but who cannot always access professional services.
+        </p>
+        <p style="font-size: 1.05rem; color: var(--c-text-2); line-height: 1.85;">
+          This is not a marketing exercise. There is no certificate, no badge on a wall. It is simply a commitment: every time a business in Lancashire invests in its own growth, someone else gets a genuine lift too.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       7. THE IMPACT
+  ══════════════════════════════════ -->
+  <section class="section" id="impact">
+    <div class="wrap">
+      <div class="section__hd" style="text-align: center;">
+        <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-chart-simple"></i> The Impact</div>
+        <h2 class="section__title">Tracking what we give back</h2>
+        <p class="section__sub" style="margin-inline: auto; text-align: center;">This initiative launched in 2026. Every figure here will grow with each project completed.</p>
+      </div>
+
+      <div class="results__wrap">
+        <div class="results__grid">
+          <div class="stat">
+            <div class="stat__num">0</div>
+            <div class="stat__label">Websites Donated</div>
+            <div class="stat__note">Free sites built for causes &amp; individuals</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">0</div>
+            <div class="stat__label">Communities Supported</div>
+            <div class="stat__note">Lancashire organisations given an online presence</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">0</div>
+            <div class="stat__label">Events Promoted</div>
+            <div class="stat__note">Community event pages published for free</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       8. CTA
+  ══════════════════════════════════ -->
+  <section class="section section--alt" id="cta">
+    <div class="wrap">
+      <div class="cta-banner">
+        <div class="cta-banner__inner">
+          <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-paper-plane"></i> Get Started</div>
+          <h2 class="cta-banner__title">Start your project and <em>choose your cause.</em></h2>
+          <p class="cta-banner__sub">
+            Commission your website and decide on a Lancashire charity, cause, or individual in need who will benefit. One project, two outcomes. No extra cost to you.
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--sp-4); justify-content: center; align-items: center;">
+            <a href="index.html#contact" class="btn btn--primary">
+              Get in Touch
+              <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="index.html" class="btn btn--ghost">
+              View Services
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════
+       9. FOOTER
+  ══════════════════════════════════ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <div class="logo-mark">CL</div>
+            Click Lancashire
+          </div>
+          <div class="footer__tagline">Professional websites &amp; Microsoft 365 automation for small businesses across Lancashire.</div>
+        </div>
+        <ul class="footer__nav" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="automation.html">Automation</a></li>
+          <li><a href="productivity-training.html">Training</a></li>
+          <li><a href="social-value.html">Social Value</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__copy">© 2026 Click Lancashire. All rights reserved.</span>
+        <div class="footer__status">
+          <div class="footer__status-dot" aria-hidden="true"></div>
+          Available for new projects
+        </div>
+      </div>
+    </div>
+  </footer>
+  </div><!-- /.site-wrapper -->
+
+
+  <!-- ══════════════════════════════════
+       MINIMAL VANILLA JS
+  ══════════════════════════════════ -->
+  <script>
+    /* ── Hamburger / drawer ── */
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+
+    burger.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+
+    document.querySelectorAll('.js-close-drawer').forEach(el => {
+      el.addEventListener('click', () => {
+        drawer.classList.remove('is-open');
+        burger.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+        drawer.classList.remove('is-open');
+        burger.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.focus();
+      }
+    });
+
+    /* ── Sticky nav ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? 'rgba(255,255,255,0.09)'
+        : 'rgba(255,255,255,0.07)';
+    }, { passive: true });
+  </script>
+
+  <!-- ══════════════════════════════════
+       WEBGL SHADER BACKGROUND
+  ══════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.getElementById('bg-canvas').style.background = '#06080f';
+      return;
+    }
+
+    const canvas = document.getElementById('bg-canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) { canvas.style.background = '#06080f'; return; }
+
+    const VS = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+    const FS = `
+      precision highp float;
+      uniform float u_time;
+      uniform vec2  u_res;
+      uniform vec2  u_cursor;
+      uniform vec2  u_ghost;
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+      float vnoise(vec2 p) {
+        vec2 i = floor(p), f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i),             hash(i + vec2(1.0, 0.0)), u.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+      float fbm(vec2 p) {
+        float v = 0.0, amp = 0.5;
+        mat2 rot = mat2(0.80, 0.60, -0.60, 0.80);
+        for (int i = 0; i < 4; i++) {
+          v += amp * vnoise(p);
+          p = rot * p * 2.1 + 100.0;
+          amp *= 0.5;
+        }
+        return v;
+      }
+      float adist2(vec2 a, vec2 b, float aspect) {
+        vec2 d = (a - b) * vec2(aspect, 1.0);
+        return dot(d, d);
+      }
+      void main() {
+        vec2  uv     = gl_FragCoord.xy / u_res;
+        float aspect = u_res.x / u_res.y;
+        vec2  p = uv * vec2(aspect, 1.0) * 2.5;
+        float n = fbm(p + u_time * 0.012);
+        vec3 col = mix(
+          vec3(0.024, 0.031, 0.059),
+          vec3(0.010, 0.072, 0.105),
+          n * 0.18
+        );
+        float sep   = sqrt(adist2(u_cursor, u_ghost, aspect));
+        float speed = clamp(sep * 9.0, 0.0, 1.0);
+        float dc2 = adist2(uv, u_cursor, aspect);
+        col += vec3(0.000, 0.831, 1.000) * exp(-dc2 * 72.0) * 0.18;
+        col += vec3(0.000, 0.620, 0.800) * exp(-dc2 * 22.0) * 0.07;
+        float dg2 = adist2(uv, u_ghost, aspect);
+        col += vec3(0.000, 0.450, 0.640) * exp(-dg2 * 14.0) * 0.05 * speed;
+        col += vec3(0.000, 0.200, 0.320) * exp(-dg2 *  2.8) * 0.02 * speed;
+        vec2  cv  = uv - 0.5;
+        float vig = clamp(1.0 - dot(cv, cv) * 1.15, 0.0, 1.0);
+        col      *= mix(0.40, 1.0, vig);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { return null; }
+      return s;
+    }
+    const vs = compile(gl.VERTEX_SHADER, VS);
+    const fs = compile(gl.FRAGMENT_SHADER, FS);
+    if (!vs || !fs) { canvas.style.background = '#06080f'; return; }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.background = '#06080f'; return; }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1,-1,  1,-1, -1, 1,
+       1,-1,  1, 1, -1, 1,
+    ]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    const uTime   = gl.getUniformLocation(prog, 'u_time');
+    const uRes    = gl.getUniformLocation(prog, 'u_res');
+    const uCursor = gl.getUniformLocation(prog, 'u_cursor');
+    const uGhost  = gl.getUniformLocation(prog, 'u_ghost');
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    let tx = 0.5, ty = 0.5;
+    function setTarget(clientX, clientY) {
+      tx = clientX / window.innerWidth;
+      ty = 1.0 - clientY / window.innerHeight;
+    }
+    window.addEventListener('mousemove', e => setTarget(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', e => setTarget(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+
+    let cx = 0.5, cy = 0.5;
+    let gx = 0.5, gy = 0.5;
+    const CURSOR_K = 0.14;
+    const GHOST_K  = 0.022;
+    let start = null;
+
+    function frame(ts) {
+      if (!start) start = ts;
+      cx += (tx - cx) * CURSOR_K;
+      cy += (ty - cy) * CURSOR_K;
+      gx += (cx - gx) * GHOST_K;
+      gy += (cy - gy) * GHOST_K;
+      gl.uniform1f(uTime,   (ts - start) * 0.001);
+      gl.uniform2f(uCursor, cx, cy);
+      gl.uniform2f(uGhost,  gx, gy);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+  </script>
+
+  <!-- ══════════════════════════════════
+       BACK TO TOP
+  ══════════════════════════════════ -->
+  <button id="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9 14V4M4 9l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', function () {
+        btn.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+      btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+
+  <!-- ══════════════════════════════════
+       BOTTOM NAV (mobile only)
+  ══════════════════════════════════ -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="index.html" class="bottom-nav__item">
+      <i class="fa-solid fa-house" aria-hidden="true"></i>
+      <span>Home</span>
+    </a>
+    <a href="automation.html" class="bottom-nav__item">
+      <i class="fa-solid fa-robot" aria-hidden="true"></i>
+      <span>Automation</span>
+    </a>
+    <a href="social-value.html" class="bottom-nav__item is-active">
+      <i class="fa-solid fa-hands-holding-heart" aria-hidden="true"></i>
+      <span>Social</span>
+    </a>
+    <a href="productivity-training.html" class="bottom-nav__item">
+      <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+      <span>Training</span>
+    </a>
+    <a href="index.html#contact" class="bottom-nav__item">
+      <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+      <span>Contact</span>
+    </a>
+  </nav>
+
+  <script>
+    /* ── Bottom nav scrollspy ── */
+    (function () {
+      if (window.innerWidth > 1023) return;
+      const items    = document.querySelectorAll('.bottom-nav__item[data-section]');
+      const sections = [...items]
+        .map(el => document.getElementById(el.dataset.section))
+        .filter(Boolean);
+
+      function setActive(id) {
+        document.querySelectorAll('.bottom-nav__item').forEach(el => {
+          el.classList.toggle('is-active', el.dataset.section === id
+            || el.getAttribute('href') === 'social-value.html');
+        });
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+
+      sections.forEach(s => observer.observe(s));
+    })();
+  </script>
+
+</body>
+</html>
