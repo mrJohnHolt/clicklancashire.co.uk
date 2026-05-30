@@ -305,6 +305,7 @@
         btn.classList.add('sent');
         btn.style.opacity = '1';
         form.reset();
+        setTimeout(() => { window.location.href = '/thank-you.html'; }, 1500);
       } else {
         const data = await res.json().catch(() => ({}));
         const msg  = (data.errors || []).map(e => e.message).join(', ')
