@@ -234,9 +234,9 @@
 (function initBackToTop() {
   const btn = document.getElementById('back-to-top');
   if (!btn) return;
-  window.addEventListener('scroll', function () {
-    btn.classList.toggle('visible', window.scrollY > 400);
-  }, { passive: true });
+  function update() { btn.classList.toggle('visible', window.scrollY > 400); }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
   btn.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -338,7 +338,33 @@
   }
 })();
 
-/* ── 7. Inject bottom nav ─────────────────────────────────────────────────── */
+/* ── 7. Form field persistence (localStorage) ─────────────────────────────── */
+(function initFormPersist() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const fields = form.querySelectorAll('input:not([type="hidden"]), textarea, select');
+  const key = id => `cl_form_${id}`;
+
+  fields.forEach(field => {
+    if (!field.id) return;
+    const saved = localStorage.getItem(key(field.id));
+    if (saved !== null) field.value = saved;
+  });
+
+  fields.forEach(field => {
+    if (!field.id) return;
+    field.addEventListener('input', () => localStorage.setItem(key(field.id), field.value));
+  });
+
+  form.addEventListener('reset', () => {
+    fields.forEach(field => {
+      if (field.id) localStorage.removeItem(key(field.id));
+    });
+  });
+})();
+
+/* ── 8. Inject bottom nav ─────────────────────────────────────────────────── */
 (function injectBottomNav() {
   // social-value.html has no #contact section — its Contact item links off-page.
   const hasContact = !!document.getElementById('contact');
