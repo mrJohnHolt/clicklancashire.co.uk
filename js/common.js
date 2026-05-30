@@ -1,5 +1,7 @@
 'use strict';
 
+// Functions run in order — injectBottomNav must precede initScrollspy.
+
 /* ── 1. WebGL shader background ───────────────────────────────────────────── */
 (function initWebGLShader() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -268,6 +270,7 @@
 (function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
+  // Endpoint lives in HTML so each page's form can point to a different Formspree address.
   const endpoint = form.dataset.endpoint;
   if (!endpoint) return;
   const btn = document.getElementById('submitBtn');
@@ -327,6 +330,7 @@
 
 /* ── 7. Inject bottom nav ─────────────────────────────────────────────────── */
 (function injectBottomNav() {
+  // social-value.html has no #contact section — its Contact item links off-page.
   const hasContact = !!document.getElementById('contact');
   const contactHref        = hasContact ? '#contact' : 'index.html#contact';
   const contactDataSection = hasContact ? ' data-section="contact"' : '';
@@ -362,7 +366,7 @@
 (function initScrollspy() {
   if (window.innerWidth > 1023) return;
 
-  /* Set active item from current URL */
+  // is-active was removed from static HTML during DRY refactor; set it from URL instead.
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.bottom-nav__item').forEach(el => {
     const href = el.getAttribute('href');
