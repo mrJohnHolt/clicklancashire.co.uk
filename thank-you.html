@@ -303,6 +303,26 @@
     }
     .toolbox-hint { font-size: 0.8125rem; color: var(--c-text-3); }
 
+    /* ── Focus visible ──────────────────────────────────────── */
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--c-accent);
+      outline-offset: 3px;
+    }
+    .scratch-reveal-btn:focus-visible {
+      outline: 1px solid rgba(255 255 255 / 0.55);
+      outline-offset: 2px;
+    }
+
+    /* ── Reduced motion ──────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 700px) {
       .game-card { flex: 0 0 100%; max-width: 100%; }
@@ -352,6 +372,8 @@
     </div>
   </nav>
 
+  <main>
+
   <!-- ══ HERO ══ -->
   <section class="ty-hero">
     <div class="wrap">
@@ -375,35 +397,35 @@
       <div class="ty-cards" id="gameCards">
 
         <div class="game-card" id="card-scratch">
-          <div class="game-card__icon">🪙</div>
+          <div class="game-card__icon" aria-hidden="true">🪙</div>
           <h3 class="game-card__title">Scratch to Reveal</h3>
           <p class="game-card__desc">Scratch away the surface to uncover a money-saving offer on your first project.</p>
           <button class="game-card__btn" onclick="selectGame('scratch')">Play →</button>
         </div>
 
         <div class="game-card" id="card-rose">
-          <div class="game-card__icon">🌹</div>
+          <div class="game-card__icon" aria-hidden="true">🌹</div>
           <h3 class="game-card__title">The Red Rose Reveal</h3>
           <p class="game-card__desc">A Lancashire classic. Tap the rose, watch the petals fall, and claim your offer.</p>
           <button class="game-card__btn" onclick="selectGame('rose')">Play →</button>
         </div>
 
         <div class="game-card" id="card-wheel">
-          <div class="game-card__icon">🎡</div>
+          <div class="game-card__icon" aria-hidden="true">🎡</div>
           <h3 class="game-card__title">Lancashire Luck Wheel</h3>
           <p class="game-card__desc">Give the wheel a spin. Whatever it lands on, it's yours. One spin only.</p>
           <button class="game-card__btn" onclick="selectGame('wheel')">Play →</button>
         </div>
 
         <div class="game-card" id="card-code">
-          <div class="game-card__icon">🔐</div>
+          <div class="game-card__icon" aria-hidden="true">🔐</div>
           <h3 class="game-card__title">Crack the Code</h3>
           <p class="game-card__desc">A sequence flashes on screen. Remember it, tap it back, unlock a hidden offer.</p>
           <button class="game-card__btn" onclick="selectGame('code')">Play →</button>
         </div>
 
         <div class="game-card" id="card-toolbox">
-          <div class="game-card__icon">🧰</div>
+          <div class="game-card__icon" aria-hidden="true">🧰</div>
           <h3 class="game-card__title">Toolbox Tap</h3>
           <p class="game-card__desc">Tap the toolbox to see what's inside. Something useful, promise.</p>
           <button class="game-card__btn" onclick="selectGame('toolbox')">Play →</button>
@@ -411,10 +433,12 @@
 
       </div><!-- /.ty-cards -->
 
-      <div class="ty-arena" id="gameArena" hidden></div>
+      <div class="ty-arena" id="gameArena" hidden aria-live="polite" aria-atomic="true"></div>
 
     </div>
   </section>
+
+  </main>
 
   <!-- ══ FOOTER ══ -->
   <footer class="footer">
@@ -500,7 +524,7 @@
       const d = document.createElement('div');
       d.className = 'prize-card';
       d.innerHTML = `
-        <div class="prize-card__emoji">${p.emoji}</div>
+        <div class="prize-card__emoji" aria-hidden="true">${p.emoji}</div>
         <div class="prize-card__label">Exclusive Offer Unlocked</div>
         <h3 class="prize-card__title">${p.title}</h3>
         <p class="prize-card__detail">${p.detail}</p>
@@ -522,9 +546,13 @@
       const arena = document.getElementById('gameArena');
       arena.removeAttribute('hidden');
       arena.innerHTML = '';
+      arena.setAttribute('tabindex', '-1');
       Games[key].init(arena);
       sessionStorage.setItem('cl_game', key);
-      setTimeout(() => arena.scrollIntoView({ behavior:'smooth', block:'nearest' }), 120);
+      setTimeout(() => {
+        arena.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        arena.focus({ preventScroll: true });
+      }, 150);
     }
     window.selectGame = selectGame;
 
@@ -543,7 +571,7 @@
                 <div class="scratch-prize__main">10% off your<br>first project</div>
                 <div class="scratch-prize__code">Code: LANCASHIRE10</div>
               </div>
-              <canvas id="scratchCanvas"></canvas>
+              <canvas id="scratchCanvas" aria-label="Scratch card — scratch or use the Reveal button to uncover your offer"></canvas>
               <button class="scratch-reveal-btn" id="scratchRevealBtn">Reveal</button>
             </div>
             <p class="scratch-hint">Scratch with your mouse or finger</p>
@@ -676,8 +704,8 @@
             <p class="arena-title">Spin the wheel</p>
             <div class="wheel-stage">
               <div class="wheel-container">
-                <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div class="wheel-pointer"></div>
+                <canvas id="wheelCanvas" width="280" height="280" aria-label="Lancashire Luck Wheel showing six prize segments: Free Audit, 10% Off, Free Consult, Priority, Strategy Call, 15% Off"></canvas>
+                <div class="wheel-pointer" aria-hidden="true"></div>
               </div>
               <button class="wheel-spin-btn" id="spinBtn">Spin →</button>
             </div>
@@ -797,12 +825,12 @@
                 ${Array.from({ length: LEN }, (_, i) => `<div class="code-seq-step" id="step${i}">?</div>`).join('')}
               </div>
               <div class="code-buttons" id="codeButtons">
-                ${ARROWS.map(a => `<button class="code-btn" data-key="${a.key}" disabled>${a.icon}</button>`).join('')}
+                ${ARROWS.map(a => `<button class="code-btn" data-key="${a.key}" aria-label="${a.key.charAt(0).toUpperCase()+a.key.slice(1)}" disabled>${a.icon}</button>`).join('')}
               </div>
               <div class="code-input-display" id="codeDots">
                 ${Array.from({ length: LEN }, () => `<div class="code-dot"></div>`).join('')}
               </div>
-              <p class="code-status" id="codeStatus"></p>
+              <p class="code-status" id="codeStatus" aria-live="polite" aria-atomic="true"></p>
             </div>
           `;
 
@@ -892,7 +920,7 @@
           arena.innerHTML = `
             <p class="arena-title">Tap the toolbox</p>
             <div class="toolbox-stage">
-              <div class="toolbox-wrap" id="toolboxWrap">
+              <button class="toolbox-wrap" id="toolboxWrap" aria-label="Open the toolbox to reveal your offer" style="border:none;background:none;padding:0;">
                 <svg class="toolbox-svg" viewBox="0 0 140 120" width="160" height="138" aria-hidden="true">
                   <!-- body -->
                   <rect x="10" y="55" width="120" height="60" rx="8" fill="#111827" stroke="#00d4ff" stroke-width="2"/>
@@ -911,7 +939,7 @@
                 <i class="fas fa-wrench toolbox-tool" id="tool1" style="--tp:translate(-55px,-55px); color:#00d4ff; top:50%; left:50%;"></i>
                 <i class="fas fa-code   toolbox-tool" id="tool2" style="--tp:translate(10px,-70px);  color:#22d47e; top:50%; left:50%;"></i>
                 <i class="fas fa-cog    toolbox-tool" id="tool3" style="--tp:translate(55px,-50px);  color:#f59e0b; top:50%; left:50%;"></i>
-              </div>
+              </button>
               <p class="toolbox-hint">Give it a tap</p>
             </div>
           `;

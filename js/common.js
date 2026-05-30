@@ -306,6 +306,8 @@
         btn.textContent   = '✓  Message sent. I\'ll be in touch shortly!';
         btn.classList.add('sent');
         btn.style.opacity = '1';
+        const liveEl = form.querySelector('.form-status-live');
+        if (liveEl) liveEl.textContent = 'Message sent. I\'ll be in touch shortly.';
         form.reset();
         setTimeout(() => {
           const p = new URLSearchParams({ name: userName, email: userEmail });
@@ -327,6 +329,8 @@
     btn.classList.add('error');
     btn.style.opacity = '1';
     btn.disabled      = false;
+    const liveEl = form.querySelector('.form-status-live');
+    if (liveEl) liveEl.textContent = msg;
     setTimeout(() => {
       btn.textContent = 'Send Message →';
       btn.classList.remove('error');
@@ -375,9 +379,10 @@
   // is-active was removed from static HTML during DRY refactor; set it from URL instead.
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.bottom-nav__item').forEach(el => {
-    const href = el.getAttribute('href');
-    el.classList.toggle('is-active',
-      href === path || (path === '' && href === 'index.html'));
+    const href    = el.getAttribute('href');
+    const active  = href === path || (path === '' && href === 'index.html');
+    el.classList.toggle('is-active', active);
+    if (active) el.setAttribute('aria-current', 'page');
   });
 
   /* Scrollspy only for anchor items (pages with a contact section) */
