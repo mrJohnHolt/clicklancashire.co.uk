@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://clicklancashire.co.uk/sitemap.xml
