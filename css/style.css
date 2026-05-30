@@ -729,15 +729,25 @@ body::after {
   gap: 10px;
   flex-shrink: 0;
 }
+/* ── Shared icon-box base ── */
+.svc-card__ico,
+.ai-benefit__ico,
+.strip__icon,
+.meta-item__ico,
+.who-col__ico,
+.discovery-point__ico {
+  background: var(--c-accent-dim);
+  display: grid;
+  place-items: center;
+  color: var(--c-accent);
+  flex-shrink: 0;
+}
+
 .strip__icon {
   width: 34px;
   height: 34px;
-  background: var(--c-accent-dim);
   border-radius: var(--r-sm);
-  display: grid;
-  place-items: center;
   font-size: 1rem;
-  flex-shrink: 0;
 }
 .strip__copy {
   font-size: 0.875rem;
@@ -833,27 +843,36 @@ body::after {
     border-color  0.3s ease,
     box-shadow    0.3s ease;
 }
-/* Top accent line */
-.svc-card::before {
+/* Shared: top accent bar */
+.svc-card::before,
+.discovery-card::before {
   content: '';
   position: absolute;
-  top: 0; left: var(--sp-6); right: var(--sp-6);
-  height: 2px;
+  top: 0;
   background: var(--c-accent);
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 3px 3px;
+}
+/* Shared: corner glow */
+.svc-card::after,
+.discovery-card::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+/* Top accent line */
+.svc-card::before {
+  left: var(--sp-6); right: var(--sp-6);
+  height: 2px;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 /* Corner glow */
 .svc-card::after {
-  content: '';
-  position: absolute;
   top: -60px; right: -60px;
   width: 140px; height: 140px;
   background: radial-gradient(circle, var(--c-accent-glow) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
-  pointer-events: none;
 }
 .svc-card:hover {
   transform: translateY(-6px);
@@ -866,11 +885,7 @@ body::after {
 .svc-card__ico {
   width: 50px;
   height: 50px;
-  background: var(--c-accent-dim);
   border-radius: 12px;
-  display: grid;
-  place-items: center;
-  color: var(--c-accent);
   font-size: 1.25rem;
 }
 .svc-card__title {
@@ -981,13 +996,8 @@ body::after {
 }
 .ai-benefit__ico {
   width: 44px; height: 44px;
-  background: var(--c-accent-dim);
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  color: var(--c-accent);
   font-size: 1.05rem;
-  flex-shrink: 0;
 }
 .ai-benefit__title {
   font-family: var(--f-display);
@@ -1372,13 +1382,8 @@ body::after {
 }
 .meta-item__ico {
   width: 36px; height: 36px;
-  background: var(--c-accent-dim);
   border-radius: 9px;
-  display: grid;
-  place-items: center;
-  color: var(--c-accent);
   font-size: 0.9rem;
-  flex-shrink: 0;
 }
 
 /* Form */
@@ -1662,13 +1667,8 @@ body::after {
 .who-col__ico {
   width: 44px;
   height: 44px;
-  background: var(--c-accent-dim);
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  color: var(--c-accent);
   font-size: 1.1rem;
-  flex-shrink: 0;
 }
 
 .who-list {
@@ -1705,20 +1705,13 @@ body::after {
   overflow: hidden;
 }
 .discovery-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: var(--sp-8); right: var(--sp-8);
+  left: var(--sp-8); right: var(--sp-8);
   height: 3px;
-  background: var(--c-accent);
-  border-radius: 0 0 3px 3px;
 }
 .discovery-card::after {
-  content: '';
-  position: absolute;
   top: -80px; right: -80px;
   width: 360px; height: 360px;
   background: radial-gradient(circle, rgba(0 212 255 / 0.06) 0%, transparent 65%);
-  pointer-events: none;
 }
 
 .discovery-inner {
@@ -1767,13 +1760,8 @@ body::after {
 .discovery-point__ico {
   width: 44px;
   height: 44px;
-  background: var(--c-accent-dim);
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  color: var(--c-accent);
   font-size: 1rem;
-  flex-shrink: 0;
 }
 .discovery-point__title {
   font-family: var(--f-display);
