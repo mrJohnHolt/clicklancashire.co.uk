@@ -529,6 +529,7 @@
         <p class="prize-card__note">Or reply to your confirmation email and mention this offer.</p>
       `;
       arena.appendChild(d);
+      setTimeout(() => d.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
     }
 
     /* ── selectGame ─────────────────────────────────────── */
