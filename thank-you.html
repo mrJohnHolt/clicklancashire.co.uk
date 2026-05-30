@@ -524,9 +524,7 @@
         <h3 class="prize-card__title">${p.title}</h3>
         <p class="prize-card__detail">${p.detail}</p>
         ${p.code ? `<div class="prize-card__code">${p.code}</div>` : ''}
-        <a href="mailto:hello@clicklancashire.co.uk?subject=${encodeURIComponent(p.mail)}"
-           class="btn btn--primary">Claim this offer →</a>
-        <p class="prize-card__note">Or reply to your confirmation email and mention this offer.</p>
+<p class="prize-card__note">Or reply to your confirmation email and mention this offer.</p>
       `;
       arena.appendChild(d);
       setTimeout(() => d.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
