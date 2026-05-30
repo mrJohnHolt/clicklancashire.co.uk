@@ -301,11 +301,16 @@
       });
 
       if (res.ok) {
+        const userName  = (form.querySelector('[name="First Name"]')?.value  || '').trim();
+        const userEmail = (form.querySelector('[name="Email Address"]')?.value || '').trim();
         btn.textContent   = '✓  Message sent. I\'ll be in touch shortly!';
         btn.classList.add('sent');
         btn.style.opacity = '1';
         form.reset();
-        setTimeout(() => { window.location.href = '/thank-you.html'; }, 1500);
+        setTimeout(() => {
+          const p = new URLSearchParams({ name: userName, email: userEmail });
+          window.location.href = `/thank-you.html?${p}`;
+        }, 1500);
       } else {
         const data = await res.json().catch(() => ({}));
         const msg  = (data.errors || []).map(e => e.message).join(', ')

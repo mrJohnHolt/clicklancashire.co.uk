@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You | Click Lancashire</title>
-  <meta name="description" content="Message received — I'll be in touch within one working day.">
+  <meta name="description" content="Message received. I'll be in touch within one working day.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_io/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_io/favicon-32x32.png">
@@ -369,7 +369,7 @@
       <div class="ty-games__header">
         <p class="ty-eyebrow">A little something while you wait</p>
         <h2 class="ty-games__title">Pick your game. Win an exclusive offer.</h2>
-        <p class="ty-games__desc">Five games. Five prizes. One choice — and you can only pick once.</p>
+        <p class="ty-games__desc">Five games. Five prizes. One choice. You can only pick once.</p>
       </div>
 
       <div class="ty-cards" id="gameCards">
@@ -405,7 +405,7 @@
         <div class="game-card" id="card-toolbox">
           <div class="game-card__icon">🧰</div>
           <h3 class="game-card__title">Toolbox Tap</h3>
-          <p class="game-card__desc">Tap the toolbox to see what's inside. Something useful — promise.</p>
+          <p class="game-card__desc">Tap the toolbox to see what's inside. Something useful, promise.</p>
           <button class="game-card__btn" onclick="selectGame('toolbox')">Play →</button>
         </div>
 
@@ -459,24 +459,44 @@
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+    const _params    = new URLSearchParams(window.location.search);
+    const _userName  = _params.get('name')  || '';
+    const _userEmail = _params.get('email') || '';
+
     /* ── Prizes ──────────────────────────────────────────── */
     const PRIZES = {
-      scratch:  { emoji:'🎉', title:'10% off your first project', detail:'Use the code below when you get in touch — applies to website builds and automation builds alike.', code:'LANCASHIRE10', mail:'Scratch card prize — 10% off my first project (LANCASHIRE10)' },
-      rose:     { emoji:'🌹', title:'Free 30-minute website review', detail:'I\'ll take an honest look at your current online presence and tell you exactly what\'s worth fixing — no strings, no sales pitch.', mail:'Red Rose prize — free 30-minute website review' },
-      toolbox:  { emoji:'🧰', title:'Free 30-minute strategy call', detail:'We\'ll map out exactly what you need — website, automation, or both — and figure out the best way to get there.', mail:'Toolbox prize — free 30-minute strategy call' },
-      code:     { emoji:'🔓', title:'Free discovery call', detail:'A no-commitment conversation to see if we\'re a good fit. Most people find it\'s the most useful half-hour they\'ve spent on their business this year.', mail:'Crack the Code prize — free discovery call' },
+      scratch:  { emoji:'🎉', title:'10% off your first project', detail:'Use the code below when you get your invoice, applies to website builds, Consultation, Training and automation builds alike.', code:'LANCASHIRE10', mail:'Scratch card prize - 10% off first project (LANCASHIRE10)' },
+      rose:     { emoji:'🌹', title:'Free 30-minute website review', detail:'I\'ll take an honest look at your current online presence and tell you exactly what\'s worth fixing. No strings, no sales pitch.', mail:'Red Rose prize - free 30-minute website review' },
+      toolbox:  { emoji:'🧰', title:'Free 30-minute strategy call', detail:'We\'ll map out exactly what you need, website, automation, or both, and figure out the best way to get there.', mail:'Toolbox prize - free 30-minute strategy call' },
+      code:     { emoji:'🔓', title:'Free discovery call', detail:'A no-commitment conversation to see if we\'re a good fit. Most people find it\'s the most useful half-hour they\'ve spent on their business this year.', mail:'Crack the Code prize - free discovery call' },
     };
     const WHEEL_SEGMENTS = [
-      { text:'Free Audit',    short:'Free Audit',    color:'#0ea5e9', prize:{ emoji:'🔍', title:'Free workflow audit', detail:'I\'ll review one of your key business processes and show you exactly where time is being lost — and how to get it back.', mail:'Luck Wheel — free workflow audit' } },
-      { text:'10% Off',       short:'10% Off',       color:'#22d47e', prize:{ emoji:'💸', title:'10% off your first project', detail:'Applies to any website build or automation project. Use code below when you get in touch.', code:'LANCASHIRE10', mail:'Luck Wheel — 10% off first project' } },
-      { text:'Free Consult',  short:'Free Consult',  color:'#a855f7', prize:{ emoji:'💬', title:'Free discovery consultation', detail:'30 minutes, no commitment. Just an honest chat about what your business needs and whether I can help.', mail:'Luck Wheel — free discovery consultation' } },
-      { text:'Priority',      short:'Priority',      color:'#f59e0b', prize:{ emoji:'⚡', title:'Priority onboarding', detail:'Skip the queue. When you\'re ready to start, your project goes straight to the top of my schedule.', mail:'Luck Wheel — priority onboarding' } },
-      { text:'Strategy Call', short:'Strategy Call', color:'#ef4444', prize:{ emoji:'🗺️', title:'Free 30-min strategy call', detail:'We\'ll map out your website or automation project together and you\'ll leave with a clear, actionable plan.', mail:'Luck Wheel — free strategy call' } },
-      { text:'15% Off',       short:'15% Off',       color:'#00d4ff', prize:{ emoji:'🚀', title:'15% off your first automation build', detail:'The biggest saving on the wheel. Use code below when you\'re ready to supercharge your workflow.', code:'AUTOMATION15', mail:'Luck Wheel — 15% off first automation build' } },
+      { text:'Free Audit',    short:'Free Audit',    color:'#0ea5e9', prize:{ emoji:'🔍', title:'Free workflow audit', detail:'I\'ll review one of your key business processes and show you exactly where time is being lost, and how to get it back.', mail:'Luck Wheel - free workflow audit' } },
+      { text:'10% Off',       short:'10% Off',       color:'#22d47e', prize:{ emoji:'💸', title:'10% off your first project', detail:'Use the code below when you get your invoice, applies to website builds, Consultation, Training and automation builds alike.', code:'LANCASHIRE10', mail:'Luck Wheel - 10% off first project' } },
+      { text:'Free Consult',  short:'Free Consult',  color:'#a855f7', prize:{ emoji:'💬', title:'Free discovery consultation', detail:'30 minutes, no commitment. Just an honest chat about what your business needs and whether I can help.', mail:'Luck Wheel - free discovery consultation' } },
+      { text:'Priority',      short:'Priority',      color:'#f59e0b', prize:{ emoji:'⚡', title:'Priority onboarding', detail:'Skip the queue. When you\'re ready to start, your project goes straight to the top of my schedule.', mail:'Luck Wheel - priority onboarding' } },
+      { text:'Strategy Call', short:'Strategy Call', color:'#ef4444', prize:{ emoji:'🗺️', title:'Free 30-min strategy call', detail:'We\'ll map out your website or automation project together and you\'ll leave with a clear, actionable plan.', mail:'Luck Wheel - free strategy call' } },
+      { text:'15% Off',       short:'15% Off',       color:'#00d4ff', prize:{ emoji:'🚀', title:'15% off your first automation build', detail:'The biggest saving on the wheel. Use code below when you\'re ready to supercharge your workflow.', code:'AUTOMATION15', mail:'Luck Wheel - 15% off first automation build' } },
     ];
 
+    /* ── notifyPrize ─────────────────────────────────────── */
+    function notifyPrize(p, gameLabel) {
+      const fd = new FormData();
+      fd.append('_subject', '🎮 Thank-you page: offer unlocked');
+      fd.append('Name',  _userName  || '(not captured)');
+      fd.append('Email', _userEmail || '(not captured)');
+      fd.append('Game',  gameLabel);
+      fd.append('Prize', p.title);
+      if (p.code) fd.append('Code', p.code);
+      fd.append('Note', 'Honour this offer when they get in touch.');
+      fetch('https://formspree.io/f/xeedvjrk', {
+        method: 'POST', body: fd, headers: { Accept: 'application/json' }
+      }).catch(() => {});
+    }
+
     /* ── showPrize ───────────────────────────────────────── */
-    function showPrize(arena, p) {
+    function showPrize(arena, p, gameLabel) {
+      notifyPrize(p, gameLabel);
       const d = document.createElement('div');
       d.className = 'prize-card';
       d.innerHTML = `
@@ -578,7 +598,7 @@
             canvas.style.opacity = '0';
             canvas.style.pointerEvents = 'none';
             document.querySelector('.scratch-hint').textContent = '';
-            setTimeout(() => showPrize(arena, PRIZES.scratch), 450);
+            setTimeout(() => showPrize(arena, PRIZES.scratch, 'Scratch to Reveal'), 450);
           }
 
           resize();
@@ -609,7 +629,7 @@
             <p class="arena-title">Tap the rose</p>
             <div class="rose-stage">
               <button class="rose-btn" id="roseBtn" aria-label="Tap the rose">🌹</button>
-              <p class="rose-hint">Go on — give it a tap</p>
+              <p class="rose-hint">Go on, give it a tap</p>
             </div>
           `;
 
@@ -618,7 +638,7 @@
             this.textContent = '🥀';
             spawnPetals(this);
             document.querySelector('.rose-hint').textContent = '';
-            setTimeout(() => showPrize(arena, PRIZES.rose), 1400);
+            setTimeout(() => showPrize(arena, PRIZES.rose, 'The Red Rose Reveal'), 1400);
           }, { once: true });
 
           function spawnPetals(btn) {
@@ -719,7 +739,7 @@
             const winner   = Math.floor(Math.random() * N);
             const segDeg   = 360 / N;
             const baseRots = (5 + Math.floor(Math.random() * 4)) * 360;
-            const land     = (360 - winner * segDeg) + (Math.random() - 0.5) * (segDeg * 0.5);
+            const land     = (330 - winner * segDeg) + (Math.random() - 0.5) * (segDeg * 0.4);
             const target   = baseRots + land;
             const duration = 4500;
             const startTime = performance.now();
@@ -738,7 +758,7 @@
               } else {
                 spinning = false;
                 const seg = WHEEL_SEGMENTS[winner];
-                setTimeout(() => showPrize(arena, seg.prize), 400);
+                setTimeout(() => showPrize(arena, seg.prize, 'Lancashire Luck Wheel'), 400);
               }
             }
             requestAnimationFrame(animate);
@@ -833,10 +853,10 @@
                 setTimeout(() => btnWrap.classList.remove('shaking'), 450);
 
                 if (attempts >= MAX_ATTEMPTS) {
-                  status.textContent = 'Close enough — you get it anyway!';
+                  status.textContent = 'Close enough. You get it anyway!';
                   won = true;
                   btns.forEach(b => b.disabled = true);
-                  setTimeout(() => showPrize(arena, PRIZES.code), 900);
+                  setTimeout(() => showPrize(arena, PRIZES.code, 'Crack the Code'), 900);
                 } else {
                   status.textContent = `Not quite. ${MAX_ATTEMPTS - attempts} attempt${MAX_ATTEMPTS - attempts !== 1 ? 's' : ''} left.`;
                   status.className = 'code-status err';
@@ -905,7 +925,7 @@
                 document.getElementById(id).classList.add('pop');
               }, 200 + i * 120);
             });
-            setTimeout(() => showPrize(arena, PRIZES.toolbox), 1200);
+            setTimeout(() => showPrize(arena, PRIZES.toolbox, 'Toolbox Tap'), 1200);
           }, { once: true });
         }
       },
