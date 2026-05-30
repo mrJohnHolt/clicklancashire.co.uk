@@ -425,6 +425,8 @@ body::after {
 .nav__has-dropdown:focus-within .nav__dropdown-trigger {
   color: var(--c-text-1);
 }
+.nav__dropdown-trigger.is-current        { color: var(--c-text-1); }
+.nav__dropdown-trigger.is-current::after { transform: scaleX(1); }
 .nav__chevron {
   transition: transform 0.2s ease;
   flex-shrink: 0;
