@@ -691,59 +691,68 @@ body::after {
   border-bottom: 1px solid var(--c-border);
   padding-block: var(--sp-5);
   position: relative;
+  overflow: hidden;
 }
-@media (max-width: 767px) {
-  .strip { padding-block: var(--sp-3); }
-}
-/* Hide scroll-hint fade on tablet/desktop where items fit */
-@media (min-width: 768px) {
-  .strip::after { display: none; }
-}
-/* At desktop, tighten gap so all 5 items fit without scrolling */
-@media (min-width: 1100px) {
-  .strip__scroll {
-    gap: var(--sp-6);
-    overflow: visible;
-    justify-content: center;
-  }
-}
-/* Right-edge fade: hints at more content */
+/* Left + right edge fades */
+.strip::before,
 .strip::after {
   content: '';
   position: absolute;
   top: 0;
-  right: 0;
-  width: 80px;
+  width: 120px;
   height: 100%;
-  background: linear-gradient(to right, transparent, var(--c-surface));
   pointer-events: none;
   z-index: 1;
 }
-.strip__scroll {
+.strip::before {
+  left: 0;
+  background: linear-gradient(to right, var(--c-surface), transparent);
+}
+.strip::after {
+  right: 0;
+  background: linear-gradient(to left, var(--c-surface), transparent);
+}
+/* Marquee track */
+.strip__track {
   display: flex;
   align-items: center;
   gap: var(--sp-8);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  cursor: grab;
+  width: max-content;
+  animation: strip-marquee 35s linear infinite;
 }
-.strip__scroll:active { cursor: grabbing; }
-.strip__scroll::-webkit-scrollbar { display: none; }
-.strip__hint { display: none; }
+.strip__track:hover { animation-play-state: paused; }
+@keyframes strip-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* Reduced motion: static centered layout, duplicates hidden */
+@media (prefers-reduced-motion: reduce) {
+  .strip__track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--sp-6);
+  }
+  .strip__track > *:nth-child(n+10) { display: none; }
+}
+/* Mobile: single-column list, no animation */
 @media (max-width: 767px) {
-  /* Switch to 2-column grid on mobile */
+  .strip {
+    overflow: visible;
+    padding-block: var(--sp-3);
+  }
+  .strip::before,
   .strip::after { display: none; }
-  .strip__scroll {
+  .strip__track {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--sp-3);
-    overflow-x: visible;
-    cursor: default;
+    width: auto;
+    animation: none;
     padding-left: var(--sp-4);
   }
-  .strip__scroll:active { cursor: default; }
-  .strip__item--desktop,
+  .strip__track > *:nth-child(n+10) { display: none; }
   .strip__sep { display: none; }
   .strip__item {
     gap: 6px;
