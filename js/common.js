@@ -452,8 +452,8 @@
     <details class="cookie-banner__details">
       <summary>What cookies do we use?</summary>
       <ul>
-        <li><strong>Essential cookies</strong> — keep the site working, including remembering your form entries so they are not lost if you navigate away.</li>
-        <li><strong>Enquiry data</strong> — if you contact us, we store only what you send and delete it once your enquiry is resolved, in line with UK law.</li>
+        <li><strong>Essential cookies</strong> - keep the site working, including remembering your form entries so they are not lost if you navigate away.</li>
+        <li><strong>Enquiry data</strong> - if you contact us, we store only what you send and delete it once your enquiry is resolved, in line with UK law.</li>
         <li>We do <strong>not</strong> use advertising, tracking, or analytics cookies.</li>
       </ul>
     </details>
