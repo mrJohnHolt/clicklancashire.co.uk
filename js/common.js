@@ -434,3 +434,45 @@
     el.addEventListener('click', () => setActive(el.dataset.section));
   });
 })();
+
+// ── Cookie consent ────────────────────────────────────────────────────────
+(function () {
+  const STORAGE_KEY = 'cl_cookie_consent';
+  function lsGet(k)    { try { return localStorage.getItem(k); }    catch { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); }        catch {} }
+  if (lsGet(STORAGE_KEY)) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-label', 'Cookie consent');
+  banner.innerHTML = `
+    <p class="cookie-banner__title">We use cookies</p>
+    <p class="cookie-banner__body">We use a small number of cookies to keep this site working and to reply to your enquiries. We do not sell your data or share it with anyone outside of Click Lancashire.</p>
+    <details class="cookie-banner__details">
+      <summary>What cookies do we use?</summary>
+      <ul>
+        <li><strong>Essential cookies</strong> — keep the site working, including remembering your form entries so they are not lost if you navigate away.</li>
+        <li><strong>Enquiry data</strong> — if you contact us, we store only what you send and delete it once your enquiry is resolved, in line with UK law.</li>
+        <li>We do <strong>not</strong> use advertising, tracking, or analytics cookies.</li>
+      </ul>
+    </details>
+    <div class="cookie-banner__actions">
+      <button class="cookie-banner__btn cookie-banner__btn--accept">Accept</button>
+      <button class="cookie-banner__btn cookie-banner__btn--decline">Decline</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('is-visible')));
+
+  function dismiss(choice) {
+    lsSet(STORAGE_KEY, choice);
+    banner.classList.remove('is-visible');
+    banner.classList.add('is-hiding');
+    banner.addEventListener('transitionend', () => banner.remove(), { once: true });
+  }
+
+  banner.querySelector('.cookie-banner__btn--accept').addEventListener('click', () => dismiss('accepted'));
+  banner.querySelector('.cookie-banner__btn--decline').addEventListener('click', () => dismiss('declined'));
+})();
