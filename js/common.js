@@ -302,7 +302,7 @@
 
       if (res.ok) {
         const userName  = (form.querySelector('[name="First Name"]')?.value  || '').trim();
-        const userEmail = (form.querySelector('[name="Email Address"]')?.value || '').trim();
+        const userEmail = (form.querySelector('[name="email"]')?.value || '').trim();
         btn.textContent   = '✓  Message sent. I\'ll be in touch shortly!';
         btn.classList.add('sent');
         btn.style.opacity = '1';

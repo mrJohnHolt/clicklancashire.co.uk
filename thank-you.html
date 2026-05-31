@@ -544,7 +544,7 @@
       Games[key].init(arena);
       sessionStorage.setItem('cl_game', key);
       setTimeout(() => {
-        arena.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        arena.scrollIntoView({ behavior:'smooth', block:'center' });
         arena.focus({ preventScroll: true });
       }, 150);
     }
