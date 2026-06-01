@@ -1898,8 +1898,8 @@ body::after {
   left: 1.5rem;
   z-index: 9999;
   width: min(340px, calc(100vw - 3rem));
-  background: var(--elevated);
-  border-top: 2px solid var(--accent);
+  background: var(--c-elevated);
+  border-top: 2px solid var(--c-accent);
   border-radius: var(--r-lg);
   padding: var(--sp-5) var(--sp-5) var(--sp-4);
   box-shadow:
@@ -1926,10 +1926,10 @@ body::after {
 }
 
 .cookie-banner__title {
-  font-family: var(--ff-display);
+  font-family: var(--f-display);
   font-size: 0.9375rem;
   font-weight: 700;
-  color: var(--text-1);
+  color: var(--c-text-1);
   margin: 0 0 var(--sp-2);
   letter-spacing: -0.01em;
 }
@@ -1937,7 +1937,7 @@ body::after {
 .cookie-banner__body {
   font-size: 0.8125rem;
   line-height: 1.6;
-  color: var(--text-2);
+  color: var(--c-text-2);
   margin: 0 0 var(--sp-3);
 }
 
@@ -1948,7 +1948,7 @@ body::after {
 .cookie-banner__details summary {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--c-accent);
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -1985,11 +1985,11 @@ body::after {
 .cookie-banner__details li {
   font-size: 0.8125rem;
   line-height: 1.6;
-  color: var(--text-2);
+  color: var(--c-text-2);
 }
 
 .cookie-banner__details li strong {
-  color: var(--text-1);
+  color: var(--c-text-1);
   font-weight: 600;
 }
 
@@ -2002,7 +2002,7 @@ body::after {
   flex: 1;
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
-  font-family: var(--ff-body);
+  font-family: var(--f-body);
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
@@ -2015,18 +2015,18 @@ body::after {
 .cookie-banner__btn:active { transform: translateY(0); }
 
 .cookie-banner__btn--accept {
-  background: var(--accent);
-  color: var(--base);
+  background: var(--c-accent);
+  color: var(--c-base);
 }
 
 .cookie-banner__btn--decline {
   background: transparent;
-  color: var(--text-2);
+  color: var(--c-text-2);
   border-color: rgba(255 255 255 / 0.12);
 }
 
 .cookie-banner__btn--decline:hover {
-  color: var(--text-1);
+  color: var(--c-text-1);
   border-color: rgba(255 255 255 / 0.25);
 }
 
