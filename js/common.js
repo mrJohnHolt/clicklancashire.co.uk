@@ -384,7 +384,7 @@
       '<span>Automation</span>' +
     '</a>' +
     '<a href="social-value.html" class="bottom-nav__item">' +
-      '<i class="fa-solid fa-hands-holding-heart" aria-hidden="true"></i>' +
+      '<i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>' +
       '<span>Social</span>' +
     '</a>' +
     '<a href="productivity-training.html" class="bottom-nav__item">' +
