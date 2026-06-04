@@ -1,10 +1,21 @@
 # CLAUDE.md — Frontend Website Rules
 
 ## Always Do First
-- **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
+1. **Invoke `web-standards.md`** before any other step, every session, no exceptions.
+2. **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
+
+## Project Setup
+- Ask the user for the site subject/topic before creating any images or placeholders.
+- Use Unsplash for placeholder images with a keyword matching the subject: `https://source.unsplash.com/WIDTHxHEIGHT/?keyword`
+- Example: for a restaurant site use `https://source.unsplash.com/800x600/?restaurant,food`
+
+## File Structure
+- Follow `web-standards.md` exactly. All CSS in `css/`, all JS in `js/`, HTML at project root.
+- Do not use a single inline `index.html` approach. Styles and scripts must be in their respective folders.
+- Tailwind CSS (if used) must be linked in the HTML file, not inside a CSS file.
 
 ## Reference Images
-- If a reference image is provided: match layout, spacing, typography, and color exactly. Swap in placeholder content (images via `https://placehold.co/`, generic copy). Do not improve or add to the design.
+- If a reference image is provided: match layout, spacing, typography, and color exactly. Swap in placeholder content (Unsplash images with appropriate keyword, generic copy). Do not improve or add to the design.
 - If no reference image: design from scratch with high craft (see guardrails below).
 - Screenshot your output, compare against reference, fix mismatches, re-screenshot. Do at least 2 comparison rounds. Stop only when no visible differences remain or user says so.
 
@@ -24,12 +35,6 @@
 - When comparing, be specific: "heading is 32px but reference shows ~24px", "card gap is 16px but should be 24px"
 - Check: spacing/padding, font size/weight/line-height, colors (exact hex), alignment, border-radius, shadows, image sizing
 
-## Output Defaults
-- Single `index.html` file, all styles inline, unless user says otherwise
-- Tailwind CSS via CDN: `<script src="https://cdn.tailwindcss.com"></script>`
-- Placeholder images: `https://placehold.co/WIDTHxHEIGHT`
-- Mobile-first responsive
-
 ## Brand Assets
 - Always check the `brand_assets/` folder before designing. It may contain logos, color guides, style guides, or images.
 - If assets exist there, use them. Do not use placeholders where real assets are available.
@@ -42,8 +47,8 @@
 - **Gradients:** Layer multiple radial gradients. Add grain/texture via SVG noise filter for depth.
 - **Animations:** Only animate `transform` and `opacity`. Never `transition-all`. Use spring-style easing.
 - **Interactive states:** Every clickable element needs hover, focus-visible, and active states. No exceptions.
-- **Images:** Add a gradient overlay (`bg-gradient-to-t from-black/60`) and a color treatment layer with `mix-blend-multiply`.
-- **Spacing:** Use intentional, consistent spacing tokens — not random Tailwind steps.
+- **Images:** Add a gradient overlay and a color treatment layer with `mix-blend-multiply`.
+- **Spacing:** Use CSS custom properties for spacing tokens — not random arbitrary values.
 - **Depth:** Surfaces should have a layering system (base → elevated → floating), not all sit at the same z-plane.
 
 ## Hard Rules
@@ -52,3 +57,4 @@
 - Do not stop after one screenshot pass
 - Do not use `transition-all`
 - Do not use default Tailwind blue/indigo as primary color
+- Do not use inline styles or embed CSS/JS in HTML files
