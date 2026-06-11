@@ -1379,11 +1379,6 @@ body::after {
   filter: brightness(0.85) saturate(0.75);
 }
 .proj-card:hover .proj-card__img img { transform: scale(1.06); }
-.proj-card__img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(6 8 15 / 0.1) 0%, transparent 60%);
-}
 /* placeholder bg when no image */
 .proj-placeholder {
   width: 100%; height: 100%;
