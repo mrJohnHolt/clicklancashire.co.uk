@@ -589,6 +589,7 @@ body::after {
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+    mix-blend-mode: screen;
     mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.7) 25%, black 55%);
   }
   .hero__image img {
@@ -596,9 +597,15 @@ body::after {
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    opacity: 0.55;
-    mix-blend-mode: screen;
-    filter: grayscale(1) sepia(1) hue-rotate(155deg) saturate(5) brightness(0.45);
+    filter: grayscale(1) brightness(0.6);
+  }
+  .hero__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 212, 255, 0.55);
+    mix-blend-mode: color;
+    pointer-events: none;
   }
 }
 
