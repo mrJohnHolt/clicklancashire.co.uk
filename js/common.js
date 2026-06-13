@@ -147,7 +147,8 @@
     gl.uniform2f(uRes, canvas.width, canvas.height);
   }
   resize();
-  window.addEventListener('resize', resize, { passive: true });
+  let resizeTimer;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 100); }, { passive: true });
 
   /* ── Input tracking ────────────────────────────────────────────── */
   let tx = 0.5, ty = 0.5;
@@ -252,17 +253,18 @@
     if (hint) hint.classList.add('is-gone');
   }, { once: true, passive: true });
 
-  let isDown = false, startX, scrollLeft;
+  let isDown = false, startX, scrollLeft, cachedLeft;
   strip.addEventListener('mousedown', e => {
     isDown = true;
-    startX = e.pageX - strip.offsetLeft;
+    cachedLeft = strip.getBoundingClientRect().left;
+    startX = e.clientX - cachedLeft;
     scrollLeft = strip.scrollLeft;
   });
   document.addEventListener('mouseup',   () => { isDown = false; });
   document.addEventListener('mousemove', e => {
     if (!isDown) return;
     e.preventDefault();
-    strip.scrollLeft = scrollLeft - (e.pageX - strip.offsetLeft - startX);
+    strip.scrollLeft = scrollLeft - (e.clientX - cachedLeft - startX);
   });
 })();
 
@@ -464,7 +466,7 @@
   `;
   document.body.appendChild(banner);
 
-  requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('is-visible')));
+  requestAnimationFrame(() => banner.classList.add('is-visible'));
 
   function dismiss(choice) {
     lsSet(STORAGE_KEY, choice);
