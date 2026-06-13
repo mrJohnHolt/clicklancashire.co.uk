@@ -383,7 +383,7 @@
     '</a>' +
     '<a href="automation.html" class="bottom-nav__item">' +
       '<i class="fa-solid fa-robot" aria-hidden="true"></i>' +
-      '<span>Automation</span>' +
+      '<span>MS365 Automation</span>' +
     '</a>' +
     '<a href="social-value.html" class="bottom-nav__item">' +
       '<i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>' +
