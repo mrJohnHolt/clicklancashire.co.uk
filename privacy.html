@@ -48,29 +48,11 @@
     }
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="preload" href="/fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    .tc-hero { padding: 3rem 0 2rem; }
-    .tc-hero__title { font-family: var(--ff-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--text-1); letter-spacing: -0.03em; margin: 0 0 0.5rem; }
-    .tc-hero__meta  { font-size: 0.875rem; color: var(--text-3); }
-
-    .tc-body { padding: 0 0 5rem; }
-    .tc-body .wrap { max-width: 780px; }
-    .tc-intro { font-size: 0.9375rem; line-height: 1.75; color: var(--text-2); margin: 0 0 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255 255 255 / 0.07); }
-
-    .tc-section { margin-bottom: 2.5rem; }
-    .tc-section h2 { font-family: var(--ff-display); font-size: 1.0625rem; font-weight: 700; color: var(--text-1); margin: 0 0 0.6rem; letter-spacing: -0.01em; }
-    .tc-section p  { font-size: 0.9375rem; line-height: 1.75; color: var(--text-2); margin: 0 0 0.6rem; }
-    .tc-section ul { padding-left: 1.25rem; margin: 0.25rem 0 0.6rem; display: flex; flex-direction: column; gap: 0.3rem; }
-    .tc-section li { font-size: 0.9375rem; line-height: 1.75; color: var(--text-2); }
-    .tc-section a  { color: var(--accent); text-decoration: none; }
-    .tc-section a:hover { text-decoration: underline; }
-    .tc-section + .tc-section { padding-top: 2rem; border-top: 1px solid rgba(255 255 255 / 0.07); }
-  </style>
 </head>
 <body>
 

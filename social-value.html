@@ -58,10 +58,10 @@
     "areaServed": { "@type": "AdministrativeArea", "name": "Lancashire" }
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="preload" href="/fonts/urbanist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"></noscript>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -319,7 +319,7 @@
   <section class="section section--alt" id="why">
     <div class="wrap">
       <div style="max-width: 780px; margin-inline: auto; text-align: center;">
-        <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-heart"></i> Why We Do This</div>
+        <div class="eyebrow eyebrow--center"><i class="fa-solid fa-heart"></i> Why We Do This</div>
         <h2 class="section__title" style="margin-bottom: var(--sp-6);">Putting something back into<br>the place we call home</h2>
         <p style="font-size: 1.05rem; color: var(--c-text-2); line-height: 1.85; margin-bottom: var(--sp-6);">
           Click Lancashire exists because of Lancashire. Every client, every project, every referral comes from this county, from its people, its businesses, and its communities. It has always felt right that some of the value created here should stay here, going directly to the causes and individuals who need it most but who cannot always access professional services.
@@ -337,8 +337,8 @@
   ══════════════════════════════════ -->
   <section class="section" id="impact">
     <div class="wrap">
-      <div class="section__hd" style="text-align: center;">
-        <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-chart-simple"></i> The Impact</div>
+      <div class="section__hd section__hd--center">
+        <div class="eyebrow eyebrow--center"><i class="fa-solid fa-chart-simple"></i> The Impact</div>
         <h2 class="section__title">Tracking what we give back</h2>
         <p class="section__sub" style="margin-inline: auto; text-align: center;">This initiative launched in 2026. Every figure here will grow with each project completed.</p>
       </div>
@@ -373,7 +373,7 @@
     <div class="wrap">
       <div class="cta-banner">
         <div class="cta-banner__inner">
-          <div class="eyebrow" style="justify-content: center;"><i class="fa-solid fa-paper-plane"></i> Get Started</div>
+          <div class="eyebrow eyebrow--center"><i class="fa-solid fa-paper-plane"></i> Get Started</div>
           <h2 class="cta-banner__title">Start your project and <em>choose your cause.</em></h2>
           <p class="cta-banner__sub">
             Commission your website and decide on a Lancashire charity, cause, or individual in need who will benefit. One project, two outcomes. No extra cost to you.
