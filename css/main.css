@@ -624,6 +624,7 @@ body::after {
     height: 100%;
     object-fit: cover;
     object-position: right top;
+    transform: scaleX(-1);
     filter: grayscale(1) brightness(0.6) blur(1px);
     animation: robot-glow 4s ease-in-out infinite;
   }
