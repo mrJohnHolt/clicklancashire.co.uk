@@ -3,7 +3,7 @@
 // Functions run in order — injectBottomNav must precede initScrollspy.
 
 /* ── 1. WebGL shader background ───────────────────────────────────────────── */
-(function initWebGLShader() {
+function initWebGLShader() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.getElementById('bg-canvas').style.background = '#06080f';
     return;
@@ -187,7 +187,13 @@
   }
 
   requestAnimationFrame(frame);
-})();
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(initWebGLShader, { timeout: 2000 });
+} else {
+  setTimeout(initWebGLShader, 200);
+}
 
 /* ── 2. Hamburger / drawer ────────────────────────────────────────────────── */
 (function initDrawer() {
