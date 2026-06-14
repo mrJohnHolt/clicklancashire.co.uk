@@ -118,7 +118,11 @@
   <section class="hero" id="hero">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__image" aria-hidden="true">
-      <img src="img/humanoidHeadshot.jpg" alt="" loading="eager">
+      <picture>
+        <source media="(min-width: 768px)" type="image/webp" srcset="img/humanoidHeadshot.webp">
+        <source media="(min-width: 768px)" type="image/jpeg" srcset="img/humanoidHeadshot.jpg">
+        <img src="" alt="" loading="eager" fetchpriority="high">
+      </picture>
     </div>
     <div class="wrap">
       <div class="hero__content">
