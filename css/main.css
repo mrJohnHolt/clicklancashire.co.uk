@@ -96,18 +96,9 @@
 ═══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
-/* ─ Shader canvas ─ */
-#bg-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -2;
-  display: block;
-}
-
 body {
   font-family: var(--f-body);
-  background: transparent;
+  background: var(--c-base);
   color: var(--c-text-1);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
