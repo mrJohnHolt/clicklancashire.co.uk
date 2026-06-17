@@ -1202,6 +1202,66 @@
   }
 }
 
+/* ═══════════════════════════════════════
+   FAQ
+═══════════════════════════════════════ */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.faq-item {
+  background: var(--c-elevated);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: var(--sp-5) var(--sp-6);
+  transition: border-color 0.3s ease;
+}
+
+.faq-item:hover { border-color: var(--c-border-mid); }
+
+.faq-item[open] { border-color: rgba(0 212 255 / 0.28); }
+
+.faq-item__q {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--c-text-1);
+  user-select: none;
+  transition: opacity 0.15s ease;
+}
+
+.faq-item__q::-webkit-details-marker { display: none; }
+
+.faq-item__q::after {
+  content: '›';
+  flex-shrink: 0;
+  display: inline-block;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--c-accent);
+  transition: transform 0.2s ease;
+}
+
+.faq-item[open] .faq-item__q::after { transform: rotate(90deg); }
+
+.faq-item__q:hover { opacity: 0.8; }
+
+.faq-item__a {
+  padding-top: var(--sp-3);
+  color: var(--c-text-2);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
 /* ── Cookie consent banner ──────────────────────────────────────────────── */
 .cookie-banner {
   position: fixed;
