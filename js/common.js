@@ -124,6 +124,7 @@
         const liveEl = form.querySelector('.form-status-live');
         if (liveEl) liveEl.textContent = 'Message sent. I\'ll be in touch shortly.';
         form.reset();
+        form.dispatchEvent(new CustomEvent('cl:submitted'));
         setTimeout(() => {
           const p = new URLSearchParams({ name: userName, email: userEmail });
           window.location.href = `/thank-you.html?${p}`;
@@ -177,6 +178,94 @@
       if (field.id) localStorage.removeItem(key(field.id));
     });
   });
+})();
+
+/* ── 7b. Contact headline A/B test ────────────────────────────────────────
+   Picks a random headline on each visit, tags the contact form with the
+   variant shown, and logs views/conversions to localStorage so results can
+   be pulled later via window.clHeadlineResults() / clHeadlineExport().    */
+(function initHeadlineTest() {
+  const heading = document.getElementById('contactHeadline');
+  if (!heading) return;
+
+  const VARIANTS = [
+    'Stop losing <em>hours</em> to problems a fresh pair of eyes can fix.',
+    'Stop losing <em>time</em> to problems you’ve stopped noticing.',
+    'Free up <em>hours</em> your team didn’t know they were <em>losing</em>.',
+    'See what’s quietly <em>costing</em> your business time.',
+    'The <em>hours</em> you’re losing are easier to find than you think.',
+    'Stop paying for problems that have <em>simple fixes</em>.',
+    'Get back the <em>hours</em> your business is losing to workarounds.',
+    'Find the <em>time</em> your business is losing every week.',
+    'Stop losing <em>time</em> to problems nobody’s had time to fix.',
+    'Uncover the <em>hours</em> your business is losing, and get them back.',
+  ];
+
+  const variantNum = Math.floor(Math.random() * VARIANTS.length) + 1;
+  heading.innerHTML = VARIANTS[variantNum - 1];
+
+  const hiddenField = document.getElementById('headlineVariant');
+  if (hiddenField) hiddenField.value = variantNum;
+
+  const LOG_KEY = 'cl_headline_test_log';
+  function readLog() {
+    try { return JSON.parse(localStorage.getItem(LOG_KEY)) || []; }
+    catch { return []; }
+  }
+  function writeLog(log) {
+    try { localStorage.setItem(LOG_KEY, JSON.stringify(log)); } catch {}
+  }
+
+  const viewId = Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+  const log = readLog();
+  log.push({
+    id:       viewId,
+    variant:  variantNum,
+    page:     location.pathname,
+    viewedAt: new Date().toISOString(),
+    converted: false,
+  });
+  writeLog(log);
+
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('cl:submitted', () => {
+      const current = readLog();
+      const entry = current.find(e => e.id === viewId);
+      if (entry) {
+        entry.converted   = true;
+        entry.convertedAt = new Date().toISOString();
+        writeLog(current);
+      }
+    });
+  }
+
+  /* Console summary: view counts, conversions, and rate per variant. */
+  window.clHeadlineResults = function () {
+    const rows = {};
+    readLog().forEach(e => {
+      const key = 'Variant ' + e.variant;
+      rows[key] = rows[key] || { views: 0, conversions: 0 };
+      rows[key].views++;
+      if (e.converted) rows[key].conversions++;
+    });
+    Object.values(rows).forEach(r => {
+      r.conversionRate = r.views ? ((r.conversions / r.views) * 100).toFixed(1) + '%' : '0%';
+    });
+    console.table(rows);
+    return rows;
+  };
+
+  /* Downloads the raw log as JSON for offline analysis. */
+  window.clHeadlineExport = function () {
+    const blob = new Blob([JSON.stringify(readLog(), null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'headline-test-log.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 })();
 
 /* ── 8. Inject bottom nav ─────────────────────────────────────────────────── */

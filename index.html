@@ -697,7 +697,7 @@
         <!-- Left: headline + meta -->
         <div>
           <div class="eyebrow"><i class="fa-solid fa-paper-plane"></i> Let's Talk</div>
-          <h2 class="contact__hl">
+          <h2 class="contact__hl" id="contactHeadline">
             Free up <em>hours</em> your team didn't know they were <em>losing</em>.
           </h2>
           <p class="contact__body">
@@ -727,6 +727,8 @@
             <input type="hidden" name="_next"    value="https://clicklancashire.co.uk/thank-you.html">
             <!-- Honeypot spam trap - hidden from real users -->
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <!-- Headline A/B test variant, set by js/common.js -->
+            <input type="hidden" name="Headline Variant" id="headlineVariant" value="3">
 
             <div class="form-row">
               <div class="form-group">
