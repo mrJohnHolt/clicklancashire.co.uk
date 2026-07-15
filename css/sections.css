@@ -868,6 +868,18 @@
   letter-spacing: -0.02em;
   margin-bottom: var(--sp-2);
 }
+.footer__email {
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.footer__email a {
+  color: var(--c-accent);
+  transition: opacity 0.2s ease;
+}
+.footer__email a:hover {
+  opacity: 0.8;
+}
 .footer__role {
   font-size: 0.8rem;
   color: var(--c-text-2);
